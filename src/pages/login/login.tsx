@@ -27,16 +27,9 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4">
-      <div
-        className="w-full max-w-md rounded-xl border bg-white dark:bg-gray-900 dark:border-gray-800 shadow-sm p-6
-      animate__animated animate__fadeIn
-      custom-animation
-      "
-      >
-        <h1 className="text-xl font-semibold text-center text-gray-900 dark:text-white mb-6">
-          Login
-        </h1>
+    <div className="flex min-h-screen items-center justify-center px-4">
+      <div className="w-full max-w-md animate-in fade-in-0 zoom-in-95 rounded-xl border border-border bg-card p-6 shadow-sm duration-300">
+        <h1 className="mb-6 text-center text-xl font-semibold">Login</h1>
         <div>
           <form onSubmit={handleSubmit(handleLogin)} className="space-y-4">
             <div className="space-y-1">
@@ -71,9 +64,9 @@ const Login = () => {
           {isError && <ErrorMessage>{error.message}</ErrorMessage>}
           <Link
             to="/register"
-            className="text-sm text-gray-500 hover:text-black transition underline underline-offset-4 flex justify-center mb-2 mt-2"
+            className="mb-2 mt-2 flex justify-center text-sm text-muted-foreground underline underline-offset-4 transition hover:text-foreground"
           >
-            I don't have account
+            I don't have an account
           </Link>
         </div>
       </div>

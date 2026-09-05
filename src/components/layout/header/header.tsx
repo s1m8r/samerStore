@@ -14,6 +14,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import {
+  Loader2,
   LogOutIcon,
   Menu,
   Search,
@@ -35,6 +36,7 @@ import { useGetStores } from "@/API/stores";
 import {
   InputGroup,
   InputGroupAddon,
+  InputGroupButton,
   InputGroupInput,
 } from "@/components/ui/input-group";
 import useDebounce from "./searchDelay";
@@ -47,7 +49,13 @@ const Header = () => {
   const [openSearch, setOpenSearch] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
   const debounceQuery = useDebounce(query, 400);
-  const { data: products } = useGetProducts(10, "", 1, debounceQuery);
+  const { data: products, isFetching } = useGetProducts(
+    10,
+    "",
+    1,
+    debounceQuery,
+  );
+  const isSearching = isFetching || query !== debounceQuery;
   const navigator = useNavigate();
   const goToLogin = () => {
     navigator({ to: "/login" });
@@ -60,8 +68,8 @@ const Header = () => {
   };
 
   return (
-    <div className="fixed left-0 top-0 z-50 w-full border-b border-gray-200 bg-white/80 px-2 backdrop-blur-md md:px-12">
-      <div className="mx-auto hidden h-16 items-center gap-6 px-4 md:flex">
+    <div className="sticky top-0 z-50 w-full border-b border-border bg-background/80 px-2 backdrop-blur-md md:px-12">
+      <div className="mx-auto hidden items-center gap-6 px-4 md:flex">
         <Link to="/" className="flex shrink-0 items-center gap-2">
           <img
             src="/logo.png"
@@ -94,13 +102,13 @@ const Header = () => {
             </NavigationMenuItem>
             <NavigationMenuItem>
               <NavigationMenuLink asChild>
-                <Link to="/orders">Brands</Link>
+                <Link to="/orders">My Orders</Link>
               </NavigationMenuLink>
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
         <div className="relative flex-1 px-6">
-          <InputGroup className="w-full bg-gray-200/50">
+          <InputGroup className="w-full bg-muted">
             <InputGroupInput
               placeholder="Search products..."
               value={query}
@@ -108,25 +116,34 @@ const Header = () => {
             />
 
             <InputGroupAddon>
-              <Search />
+              {isSearching ? <Loader2 className="animate-spin" /> : <Search />}
             </InputGroupAddon>
 
             {query && (
               <InputGroupAddon align="inline-end">
-                {products?.data.length ?? 0} results
+                {isSearching
+                  ? "Searching..."
+                  : `${products?.data.length ?? 0} results`}
+                <InputGroupButton
+                  size="icon-xs"
+                  aria-label="Clear search"
+                  onClick={() => setQuery("")}
+                >
+                  <X />
+                </InputGroupButton>
               </InputGroupAddon>
             )}
           </InputGroup>
 
           {query && (
-            <div className="absolute left-6 right-6 top-full z-50 mt-2 max-h-96 overflow-y-auto rounded-xl border border-gray-200 bg-white p-2 shadow-lg">
+            <div className="absolute left-6 right-6 top-full z-50 mt-2 max-h-96 overflow-y-auto rounded-xl border border-border bg-background p-2 shadow-lg">
               {products?.data.length ? (
                 products.data.map((item) => (
                   <Link
                     key={item.id}
-                    to={`/products/${item.id}`}
+                    to={`/stores/product/${item.id}`}
                     onClick={() => setQuery("")}
-                    className="flex items-center gap-3 rounded-lg p-3 hover:bg-gray-100"
+                    className="flex items-center gap-3 rounded-lg p-3 hover:bg-muted"
                   >
                     <img
                       src={item.image}
@@ -135,7 +152,7 @@ const Header = () => {
                     />
                     <div className="min-w-0 flex-1">
                       <p className="truncate font-medium">{item.name}</p>
-                      <p className="text-sm text-gray-500">
+                      <p className="text-sm text-muted-foreground">
                         ${item.price.toFixed(2)}
                       </p>
                       <p className="text-sm text-red-500">
@@ -145,7 +162,7 @@ const Header = () => {
                   </Link>
                 ))
               ) : (
-                <div className="p-4 text-center text-sm text-gray-500">
+                <div className="p-4 text-center text-sm text-muted-foreground">
                   No products found
                 </div>
               )}
@@ -158,12 +175,12 @@ const Header = () => {
             className="relative"
             onClick={() => navigator({ to: "/mycart" })}
           >
-            <ShoppingCart
-              className={items.length > 0 ? "text-orange-500" : ""}
-            />
-            <span className="absolute -right-2 -top-2 flex h-5 min-w-5 items-center justify-center text-xs font-bold">
-              {items.length}
-            </span>
+            <ShoppingCart />
+            {items.length > 0 && (
+              <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-orange-500 px-1 text-xs font-bold text-white shadow-md">
+                {items.length}
+              </span>
+            )}
           </button>
         </div>
         <div className="flex shrink-0 items-center gap-4">
@@ -207,7 +224,7 @@ const Header = () => {
         <div className="flex h-16 w-full items-center justify-between px-2">
           <button
             onClick={() => setOpenMenu((prev) => !prev)}
-            className="flex h-10 w-10 items-center justify-center rounded-lg hover:bg-gray-100"
+            className="flex h-10 w-10 items-center justify-center rounded-lg hover:bg-muted"
           >
             {openMenu ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -227,12 +244,12 @@ const Header = () => {
               className="relative"
               onClick={() => navigator({ to: "/mycart" })}
             >
-              <ShoppingCart
-                className={items.length > 0 ? "text-orange-500" : ""}
-              />
-              <span className="absolute -right-2 -top-2 flex h-5 min-w-5 items-center justify-center text-xs font-bold">
-                {items.length}
-              </span>
+              <ShoppingCart />
+              {items.length > 0 && (
+                <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-orange-500 px-1 text-xs font-bold text-white">
+                  {items.length}
+                </span>
+              )}
             </button>
 
             {!user && (
@@ -278,27 +295,26 @@ const Header = () => {
         </div>
 
         {openMenu && (
-          <div className="border-t border-gray-200 bg-white py-4">
+          <div className="border-t border-border bg-background py-4">
             <div className="flex flex-col gap-1">
               <Link
                 to="/"
                 onClick={closeMenu}
-                className="rounded-lg px-4 py-3 font-medium hover:bg-gray-100"
+                className="rounded-lg px-4 py-3 font-medium hover:bg-muted"
               >
                 Home
               </Link>
               <Accordion type="multiple" className="w-full">
                 <AccordionItem value="shops">
-                  <AccordionTrigger className="rounded-lg px-4 py-3 font-medium hover:bg-gray-100">
+                  <AccordionTrigger className="rounded-lg px-4 py-3 font-medium hover:bg-muted">
                     Shops
                   </AccordionTrigger>
                   {Shop?.data.map((item) => (
-                    <AccordionContent className="w-full">
+                    <AccordionContent key={item.id} className="w-full">
                       <Link
-                        key={item.id}
                         to={`/stores/${item.id}`}
                         onClick={closeMenu}
-                        className="py-1 rounded-lg px-4 font-medium"
+                        className="block rounded-lg px-4 py-2 font-medium hover:bg-muted"
                       >
                         {item.name}
                       </Link>
@@ -309,23 +325,23 @@ const Header = () => {
               <Link
                 to="/stores/TopSell"
                 onClick={closeMenu}
-                className="rounded-lg px-4 py-3 font-medium hover:bg-gray-100"
+                className="rounded-lg px-4 py-3 font-medium hover:bg-muted"
               >
                 On Sale
               </Link>
               <Link
                 to="/stores/newarrivals"
                 onClick={closeMenu}
-                className="rounded-lg px-4 py-3 font-medium hover:bg-gray-100"
+                className="rounded-lg px-4 py-3 font-medium hover:bg-muted"
               >
                 New Arrivals
               </Link>
               <Link
                 to="/orders"
                 onClick={closeMenu}
-                className="rounded-lg px-4 py-3 font-medium hover:bg-gray-100"
+                className="rounded-lg px-4 py-3 font-medium hover:bg-muted"
               >
-                Brands
+                My Orders
               </Link>
             </div>
           </div>
@@ -333,7 +349,7 @@ const Header = () => {
 
         {openSearch && (
           <div className="relative w-full px-2 pb-3">
-            <InputGroup className="w-full bg-gray-200/50">
+            <InputGroup className="w-full bg-muted">
               <InputGroupInput
                 placeholder="Search products..."
                 value={query}
@@ -341,26 +357,39 @@ const Header = () => {
                 autoFocus
               />
               <InputGroupAddon>
-                <Search />
+                {isSearching ? (
+                  <Loader2 className="animate-spin" />
+                ) : (
+                  <Search />
+                )}
               </InputGroupAddon>
               {query && (
                 <InputGroupAddon align="inline-end">
-                  {products?.data.length ?? 0} results
+                  {isSearching
+                    ? "Searching..."
+                    : `${products?.data.length ?? 0} results`}
+                  <InputGroupButton
+                    size="icon-xs"
+                    aria-label="Clear search"
+                    onClick={() => setQuery("")}
+                  >
+                    <X />
+                  </InputGroupButton>
                 </InputGroupAddon>
               )}
             </InputGroup>
             {query && (
-              <div className="absolute left-2 right-2 top-full z-50 mt-2 max-h-96 overflow-y-auto rounded-xl border border-gray-200 bg-white p-2 shadow-lg">
+              <div className="absolute left-2 right-2 top-full z-50 mt-2 max-h-96 overflow-y-auto rounded-xl border border-border bg-background p-2 shadow-lg">
                 {products?.data.length ? (
                   products.data.map((item) => (
                     <Link
                       key={item.id}
-                      to={`/products/${item.id}`}
+                      to={`/stores/product/${item.id}`}
                       onClick={() => {
                         setQuery("");
                         setOpenSearch(false);
                       }}
-                      className="flex items-center gap-3 rounded-lg p-3 hover:bg-gray-100"
+                      className="flex items-center gap-3 rounded-lg p-3 hover:bg-muted"
                     >
                       <img
                         src={item.image}
@@ -369,7 +398,7 @@ const Header = () => {
                       />
                       <div className="min-w-0 flex-1">
                         <p className="truncate font-medium">{item.name}</p>
-                        <p className="text-sm text-gray-500">
+                        <p className="text-sm text-muted-foreground">
                           ${item.price.toFixed(2)}
                         </p>
                         <p className="text-sm text-red-500">
@@ -379,7 +408,7 @@ const Header = () => {
                     </Link>
                   ))
                 ) : (
-                  <div className="p-4 text-center text-sm text-gray-500">
+                  <div className="p-4 text-center text-sm text-muted-foreground">
                     No products found
                   </div>
                 )}

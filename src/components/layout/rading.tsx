@@ -25,8 +25,8 @@ export default function Rating({ rating, type }: Props) {
           )}
         </div>
         <div>
-          <span className={`text-lg font-bold text-gray-700`}>{rating}</span>
-          <span className="text-sm text-gray-500">/5</span>
+          <span className="text-lg font-bold">{rating}</span>
+          <span className="text-sm text-muted-foreground">/5</span>
         </div>
       </div>
     </>

@@ -13,33 +13,38 @@ interface Props {
 export default function StoreUi({ title, products, setColor }: Props) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="px-12 grid grid-cols-12 ">
-      <div className="hidden sticky col-span-2 top-16 self-start border-2 px-4 py-6 mb-2 rounded-[20px] h-fit md:block">
-        <div className="flex justify-between items-center">
-          <span className=" font-bold">Filters</span>
+    <div className="grid grid-cols-1 gap-6 px-4 sm:px-6 md:grid-cols-12 lg:px-8">
+      <div className="mb-2 hidden h-fit self-start rounded-2xl border border-border px-4 py-6 sticky top-20 md:col-span-3 md:block lg:col-span-2">
+        <div className="flex items-center justify-between">
+          <span className="font-bold">Filters</span>
           <span>
             <Filter size={16} />
           </span>
         </div>
         <AccordionStore setColor={setColor} />
       </div>
-      <div className=" col-span-12 md:col-span-10">
-        <div className="flex justify-between">
+      <div className="md:col-span-9 lg:col-span-10">
+        <div className="flex items-center justify-between">
           <TitleContent title={title ?? ""} isRegister={true} />
-          <div onClick={() => setOpen(!open)} className="block md:hidden">
-            <Filter size={20} />
+          <button
+            onClick={() => setOpen(!open)}
+            className="flex h-9 w-9 items-center justify-center rounded-lg border border-border md:hidden"
+          >
+            <Filter size={18} />
+          </button>
+        </div>
+        {open && (
+          <div className="mb-4 rounded-2xl border border-border px-4 py-4 md:hidden">
+            <AccordionStore setColor={setColor} />
           </div>
-        </div>
-        <div className="block md:hidden">
-          {open && (
-            <>
-              <AccordionStore setColor={setColor} />
-            </>
-          )}
-        </div>
-        <div className="grid grid-cols-12 gap-4 px-8">
-          {products?.map((item) => (
-            <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-3">
+        )}
+        {products?.length === 0 ? (
+          <div className="flex h-40 items-center justify-center rounded-lg border border-border">
+            <p className="text-muted-foreground">No products found.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {products?.map((item) => (
               <ShowProduct
                 key={item.id}
                 id={item.id!}
@@ -50,9 +55,9 @@ export default function StoreUi({ title, products, setColor }: Props) {
                 color={item.images[0].color}
                 discountPercentage={item.discountPercentage}
               />
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

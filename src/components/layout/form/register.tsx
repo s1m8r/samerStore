@@ -36,13 +36,8 @@ export default function RegisterForm({
   isRegister,
 }: Props) {
   return (
-    <div className="w-full max-w-xl mx-auto">
-      <div
-        className="rounded-xl border bg-white dark:bg-gray-900 dark:border-gray-800 shadow-sm p-5
-      animate__animated animate__fadeIn
-      animate-duration
-      "
-      >
+    <div className="mx-auto w-full max-w-xl">
+      <div className="animate-in fade-in-0 zoom-in-95 rounded-xl border border-border bg-card p-5 shadow-sm duration-300">
         <TitleContent title={title} isRegister={isRegister} />
         <form onSubmit={handleSubmit(onsubmit)} className="space-y-4">
           <div className="space-y-1">
@@ -116,9 +111,9 @@ export default function RegisterForm({
 
         <Link
           to="/login"
-          className="text-sm text-gray-500 hover:text-black transition underline underline-offset-4 flex justify-center mb-2 mt-2"
+          className="mb-2 mt-2 flex justify-center text-sm text-muted-foreground underline underline-offset-4 transition hover:text-foreground"
         >
-          I have account go to login
+          I already have an account
         </Link>
       </div>
     </div>

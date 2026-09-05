@@ -13,9 +13,11 @@ interface Props {
 
 export default function ProductsHome({ title, product, goToShow }: Props) {
   return (
-    <section className="container py-10 flex flex-col items-center space-y-8 ">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold">{title.toUpperCase()}</h1>
+    <section className="container flex flex-col items-center space-y-6 py-8 sm:space-y-8 sm:py-10">
+      <div className="mb-2 sm:mb-4">
+        <h1 className="text-2xl font-bold sm:text-3xl">
+          {title.toUpperCase()}
+        </h1>
       </div>
 
       {product.length === 0 ? (
@@ -23,7 +25,7 @@ export default function ProductsHome({ title, product, goToShow }: Props) {
           <p className="text-muted-foreground">No products found.</p>
         </div>
       ) : (
-        <div className="grid gap-8 w-full px-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-8">
           {product.map((item) => (
             <ShowProduct
               key={item.id}

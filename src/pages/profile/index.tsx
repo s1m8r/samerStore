@@ -57,12 +57,12 @@ const Profile = () => {
   };
   return (
     <>
-      <div className=" w-full max-w-xl mx-auto p-12">
+      <div className="mx-auto w-full max-w-xl px-4 py-10 sm:p-12">
         <div className="flex justify-center">
-          <Button className="w-16 h-16 rounded-full flex justify-center items-center  font-bold text-2xl mb-8">
+          <div className="mb-8 flex h-20 w-20 items-center justify-center rounded-full bg-primary text-2xl font-bold text-primary-foreground">
             {user?.firstName.charAt(0)}
             {user?.lastName.charAt(0)}
-          </Button>
+          </div>
         </div>
         <ProComponent
           title="First Name"

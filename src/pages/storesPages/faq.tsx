@@ -35,7 +35,7 @@ export default function Faqs() {
           <AccordionTrigger className="text-base font-medium py-4">
             {item.trigger}
           </AccordionTrigger>
-          <AccordionContent className="text-base text-gray-600">
+          <AccordionContent className="text-base text-muted-foreground">
             {item.content}
           </AccordionContent>
         </AccordionItem>

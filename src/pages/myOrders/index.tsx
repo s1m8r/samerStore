@@ -27,15 +27,15 @@ const MyOrders = () => {
       <TitleContent title="My Orders" />
 
       {orders.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-20 text-gray-500">
-          <span className="mb-8">No orders yet.</span>
+        <div className="flex flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-border py-20 text-muted-foreground">
+          <span>No orders yet.</span>
 
           <Button onClick={() => navigator({ to: "/" })}>Go to Home</Button>
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-12">
           {/* Orders */}
-          <div className="px-2 py-4 lg:col-span-8">
+          <div className="lg:col-span-8">
             <div className="space-y-5">
               {orders.map((order, index) => {
                 const orderTotal = order.data.reduce(
@@ -46,15 +46,15 @@ const MyOrders = () => {
                 return (
                   <div
                     key={order.id}
-                    className="rounded-[20px] border-2 border-gray-300 bg-white p-4"
+                    className="rounded-2xl border border-border bg-card p-4 shadow-sm"
                   >
-                    <div className="flex items-center justify-between border-b border-gray-300 pb-3">
+                    <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border pb-3">
                       <div>
                         <h2 className="font-semibold">
                           Order {(data?.pagination.totalItems ?? 0) - index}
                         </h2>
 
-                        <p className="text-sm text-gray-400">
+                        <p className="text-sm text-muted-foreground">
                           {new Date(order.createdAt).toLocaleDateString(
                             "en-US",
                           )}
@@ -74,27 +74,29 @@ const MyOrders = () => {
                         return (
                           <div
                             key={item.productId}
-                            className="flex items-center justify-between rounded-lg bg-gray-50 p-3"
+                            className="flex flex-wrap items-center justify-between gap-3 rounded-lg bg-muted p-3"
                           >
                             <div className="flex items-center gap-3">
                               <img
                                 src={item.image}
                                 alt={item.name}
-                                className="h-16 w-16 rounded-md object-cover"
+                                className="h-16 w-16 shrink-0 rounded-md object-cover"
                               />
 
-                              <div>
-                                <h3 className="font-medium">{item.name}</h3>
+                              <div className="min-w-0">
+                                <h3 className="truncate font-medium">
+                                  {item.name}
+                                </h3>
 
-                                <p className="text-sm text-gray-500">
+                                <p className="text-sm text-muted-foreground">
                                   Price: ${item.price.toFixed(2)}
                                 </p>
 
-                                <p className="text-sm text-gray-500">
+                                <p className="text-sm text-muted-foreground">
                                   Color: {item.color}
                                 </p>
 
-                                <p className="text-sm text-gray-500">
+                                <p className="text-sm text-muted-foreground">
                                   Quantity: {item.quantity}
                                 </p>
                               </div>
@@ -111,7 +113,7 @@ const MyOrders = () => {
                     </div>
 
                     {/* Order Total */}
-                    <div className="border-t border-gray-300 pt-3">
+                    <div className="border-t border-border pt-3">
                       <div className="flex justify-between font-bold">
                         <span>Total</span>
 
@@ -125,21 +127,25 @@ const MyOrders = () => {
           </div>
 
           {/* Summary */}
-          <div className="px-2 py-4 lg:col-span-4">
-            <div className="sticky top-20 h-fit rounded-[20px] border-2 border-gray-300 p-5">
+          <div className="lg:col-span-4">
+            <div className="h-fit rounded-2xl border border-border bg-card p-5 shadow-sm lg:sticky lg:top-20">
               <h1 className="text-xl font-bold">Order Summary</h1>
 
-              <div className="space-y-2 border-b-2 border-gray-300 py-4">
+              <div className="space-y-2 border-b border-border py-4">
                 {/* Total Orders */}
                 <div className="flex justify-between">
-                  <span className="text-sm text-gray-500">Total Orders</span>
+                  <span className="text-sm text-muted-foreground">
+                    Total Orders
+                  </span>
 
                   <span className="text-sm font-bold">{totalOrders}</span>
                 </div>
 
                 {/* Subtotal */}
                 <div className="flex justify-between">
-                  <span className="text-sm text-gray-500">Subtotal</span>
+                  <span className="text-sm text-muted-foreground">
+                    Subtotal
+                  </span>
 
                   <span className="text-sm font-bold">
                     ${subtotal.toFixed(2)}

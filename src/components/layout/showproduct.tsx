@@ -1,5 +1,5 @@
 import { useCartStore } from "@/stores/cartStore";
-import { Minus, Plus } from "lucide-react";
+import { Minus, Plus, ShoppingCart } from "lucide-react";
 import { Button } from "../ui/button";
 import Rating from "./rading";
 import { useNavigate } from "@tanstack/react-router";
@@ -36,14 +36,16 @@ export default function ShowProduct({
   } = useCartStore();
   const cartItem = cartItems.find((item) => item.productId === id);
   return (
-    <div className="overflow-hidden rounded-xl bg-white">
+    <div className="group flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card shadow-sm transition-shadow hover:shadow-md">
       <div className="relative">
-        <img
-          onClick={() => navigate({ to: `/stores/product/${id}` })}
-          src={img}
-          alt={name}
-          className="max-h-64 w-full object-cover rounded-xl cursor-pointer"
-        />
+        <div className="aspect-square w-full overflow-hidden">
+          <img
+            onClick={() => navigate({ to: `/stores/product/${id}` })}
+            src={img}
+            alt={name}
+            className="h-full w-full cursor-pointer object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+        </div>
 
         {discountPercentage > 0 && (
           <span className="absolute right-3 top-3 rounded-full bg-red-500 px-2 py-1 text-xs font-bold text-white">
@@ -52,9 +54,9 @@ export default function ShowProduct({
         )}
       </div>
 
-      <div className="">
+      <div className="flex flex-1 flex-col gap-2 p-3 sm:p-4">
         <h3
-          className="truncate text-lg font-semibold cursor-pointer"
+          className="truncate text-base font-semibold cursor-pointer sm:text-lg"
           onClick={() => navigate({ to: `/stores/product/${id}` })}
         >
           {name}
@@ -62,38 +64,40 @@ export default function ShowProduct({
         <div className="flex">
           <Rating rating={rating} type="main" />
         </div>
-        <div className="flex justify-between">
+        <div className="mt-auto flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center gap-2">
-            <span className="text-xl font-bold">${priceAfter.toFixed(2)}</span>
+            <span className="text-lg font-bold sm:text-xl">
+              ${priceAfter.toFixed(2)}
+            </span>
 
             {discountPercentage > 0 && (
-              <span className="text-sm text-gray-400 line-through">
+              <span className="text-sm text-muted-foreground line-through">
                 ${price.toFixed(2)}
               </span>
             )}
           </div>
           <div>
             {cartItem ? (
-              <>
-                <div
-                  className="flex items-center gap-2"
-                  key={cartItem.productId}
+              <div
+                className="flex h-8 items-center gap-1 rounded-full border border-border bg-muted px-1"
+                key={cartItem.productId}
+              >
+                <button
+                  onClick={() => decreaseQuantity(cartItem.productId)}
+                  className="flex h-6 w-6 items-center justify-center rounded-full hover:bg-background"
                 >
-                  <button
-                    onClick={() => decreaseQuantity(cartItem.productId)}
-                    className="w-4 h-4 rounded border hover:bg-gray-100"
-                  >
-                    <Minus size={12} className="mx-auto" />
-                  </button>
-                  <span className="w-3 text-center">{cartItem.quantity}</span>
-                  <button
-                    onClick={() => increaseQuantity(cartItem.productId)}
-                    className="w-4 h-4 rounded border hover:bg-gray-100"
-                  >
-                    <Plus size={12} className="mx-auto" />
-                  </button>
-                </div>
-              </>
+                  <Minus size={14} />
+                </button>
+                <span className="w-4 text-center text-sm">
+                  {cartItem.quantity}
+                </span>
+                <button
+                  onClick={() => increaseQuantity(cartItem.productId)}
+                  className="flex h-6 w-6 items-center justify-center rounded-full hover:bg-background"
+                >
+                  <Plus size={14} />
+                </button>
+              </div>
             ) : (
               <Button
                 size="sm"
@@ -112,7 +116,8 @@ export default function ShowProduct({
                   }
                 }}
               >
-                Buy
+                Add
+                <ShoppingCart />
               </Button>
             )}
           </div>

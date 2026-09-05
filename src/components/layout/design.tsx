@@ -3,5 +3,5 @@ interface Props {
 }
 
 export default function Design({ children }: Props) {
-  return <div className="pl-8 pr-8 pt-4">{children}</div>;
+  return <div className="px-4 pt-4 sm:px-8">{children}</div>;
 }

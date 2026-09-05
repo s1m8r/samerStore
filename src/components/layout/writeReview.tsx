@@ -61,7 +61,7 @@ export default function WriteReview({ id, name, storeName }: Props) {
           <div className="flex flex-col items-center gap-4 py-6 text-center">
             <h2 className="text-xl font-semibold">Please Login</h2>
 
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-muted-foreground">
               You need to login before you can write a review.
             </p>
 
@@ -90,7 +90,7 @@ export default function WriteReview({ id, name, storeName }: Props) {
             <div className="space-y-5">
               {/* Rating */}
               <div className="flex flex-col items-center gap-3">
-                <span className="text-sm font-medium text-gray-600">
+                <span className="text-sm font-medium text-muted-foreground">
                   {rating === 0
                     ? "How would you rate this product?"
                     : `${rating} out of 5`}
@@ -115,7 +115,7 @@ export default function WriteReview({ id, name, storeName }: Props) {
                           className={
                             starNumber <= (hoverRating || rating)
                               ? "fill-yellow-400 text-yellow-400"
-                              : "text-gray-300"
+                              : "text-muted-foreground/40"
                           }
                         />
                       </button>

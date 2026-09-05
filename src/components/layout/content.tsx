@@ -103,7 +103,7 @@ export default function Content({
               >
                 <SwiperSlide
                   onClick={() => setActiveThumb(0)}
-                  className={`!flex !h-24 !w-24 !shrink-0 !items-center !justify-center cursor-pointer
+                  className={`flex! h-24! w-24! shrink-0! items-center! justify-center! cursor-pointer
       ${activeThumb === 0 ? "border-2 border-amber-700" : ""}`}
                 >
                   <img
@@ -117,7 +117,7 @@ export default function Content({
                   <SwiperSlide
                     key={item.path}
                     onClick={() => setActiveThumb(i + 1)}
-                    className={`!flex !h-24 !w-24 !shrink-0 !items-center !justify-center cursor-pointer
+                    className={`flex! h-24! w-24! shrink-0! items-center! justify-center! cursor-pointer
         ${activeThumb === i + 1 ? "border-2 border-amber-700" : ""}`}
                   >
                     <img
@@ -129,17 +129,17 @@ export default function Content({
                 ))}
               </Swiper>
             </div>
-            <div className="flex justify-center">
+            <div className="flex w-full justify-center md:w-auto">
               <Swiper
                 modules={[Thumbs, Navigation, Pagination, Zoom]}
                 thumbs={{ swiper: thumbsSwiper }}
                 navigation
                 pagination={{ clickable: true }}
                 zoom
-                className="!m-0 w-80 flex rounded-[8px]"
+                className="m-0! flex aspect-square w-full max-w-sm rounded-[8px]"
                 onSlideChange={(swiper) => setActiveThumb(swiper.activeIndex)}
               >
-                <SwiperSlide className="m-0 !flex !items-center">
+                <SwiperSlide className="m-0 flex! items-center!">
                   <div className="swiper-zoom-container m-0">
                     <img src={image} className="h-full w-full object-contain" />
                   </div>
@@ -148,7 +148,7 @@ export default function Content({
                 {images.map((item) => (
                   <SwiperSlide
                     key={item.path}
-                    className="m-0 !flex !items-center "
+                    className="m-0 flex! items-center!"
                   >
                     <div className="swiper-zoom-container">
                       <img
@@ -161,30 +161,32 @@ export default function Content({
               </Swiper>
             </div>
           </div>
-          <div className=" space-y-4">
-            <div className="border-b-2 space-y-0.5 md:space-y-4">
-              <h1 className=" font-bold text-2xl">{name}</h1>
+          <div className="space-y-4">
+            <div className="space-y-1 border-b border-border pb-4 md:space-y-3">
+              <h1 className="text-2xl font-bold">{name}</h1>
               <Rating rating={rating} type="product" />
-              <div className="space-x-2 text-xl flex">
-                <span>{priceAfter.toFixed(2)}</span>
+              <div className="flex items-center gap-2 text-xl">
+                <span className="font-bold">${priceAfter.toFixed(2)}</span>
                 {discountPercentage > 0 && (
-                  <div className="">
-                    <span className=" text-gray-400 line-through">
+                  <div className="flex items-center gap-2">
+                    <span className="text-base text-muted-foreground line-through">
                       ${price.toFixed(2)}
                     </span>
-                    <span className="rounded-full text-base bg-red-50 px-2 text-red-500">
+                    <span className="rounded-full bg-red-50 px-2 text-base text-red-500">
                       {discountPercentage}%
                     </span>
                   </div>
                 )}
               </div>
-              <p className="max-w-96 text-base leading-5 text-gray-600 line-clamp-2">
+              <p className="max-w-96 text-base leading-6 text-muted-foreground line-clamp-2">
                 {description}
               </p>
             </div>
-            <div className=" space-y-4">
-              <span className=" text-gray-500 ">Select Color</span>
-              <div className=" flex gap-2">
+            <div className="space-y-3">
+              <span className="text-sm text-muted-foreground">
+                Select Color
+              </span>
+              <div className="flex gap-2">
                 {colors.map((item) => (
                   <span
                     key={item.color}
@@ -200,10 +202,10 @@ export default function Content({
               </div>
               <>
                 {cartItem ? (
-                  <div className="flex h-8 w-fit items-center gap-1 rounded-full border bg-gray-200 p-1">
+                  <div className="flex h-9 w-fit items-center gap-1 rounded-full border border-border bg-muted p-1">
                     <button
                       onClick={() => decreaseQuantity(cartItem.productId)}
-                      className="flex items-center justify-center rounded-full cursor-pointer"
+                      className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-full hover:bg-background"
                     >
                       <Minus size={14} />
                     </button>
@@ -214,7 +216,7 @@ export default function Content({
 
                     <button
                       onClick={() => increaseQuantity(cartItem.productId)}
-                      className="flex items-center justify-center rounded-full cursor-pointer"
+                      className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-full hover:bg-background"
                     >
                       <Plus size={14} />
                     </button>

@@ -53,8 +53,8 @@ export default function AccordionStore({ setColor }: Prop) {
                 style={{ backgroundColor: item.color }}
                 className={`flex h-8 w-8 items-center justify-center rounded-full border-2 ${
                   selectedColor === item.color
-                    ? "border-black"
-                    : "border-gray-300"
+                    ? "border-primary"
+                    : "border-border"
                 }`}
               >
                 {selectedColor === item.color && (

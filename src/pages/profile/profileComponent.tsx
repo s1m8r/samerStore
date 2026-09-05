@@ -5,11 +5,9 @@ interface Props {
 
 export function ProComponent({ title, dataInformation }: Props) {
   return (
-    <div className="w-full flex justify-between mb-3 py-2 border-b border-gray-300 dark:border-gray-700 ">
-      <span className="text-sm text-gray-500">{title}: </span>
-      <span className="text-sm text-gray-900 dark:text-white">
-        {dataInformation}
-      </span>
+    <div className="mb-3 flex w-full justify-between border-b border-border py-2">
+      <span className="text-sm text-muted-foreground">{title}: </span>
+      <span className="text-sm font-medium">{dataInformation}</span>
     </div>
   );
 }
