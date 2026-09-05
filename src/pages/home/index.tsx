@@ -13,33 +13,35 @@ const Home = () => {
   const { data: peoductsTop } = useGetProducts(4, "rating");
   return (
     <>
-      <div className="flex flex-col gap-6 p-4 md:h-fit md:flex-row md:gap-0 md:bg-[url('/bgrt.png')] md:bg-cover md:bg-center md:bg-no-repeat md:p-30 md:rounded-full">
-        <div className="w-full max-w-2xl space-y-6 md:flex md:justify-center">
-          <div className="flex h-fit flex-col p-2 sm:p-4">
-            <p className="text-3xl font-bold leading-tight sm:text-4xl md:text-6xl">
-              Welcome to <span className="text-orange-500">Samer Store</span>
+      <div
+        className="z-1  relative
+  h-screen md:h-fit
+  bg-[url('/bgMobile.png')] bg-cover bg-center bg-no-repeat
+  flex items-center p-2 md:p-30
+  md:bg-[url('/bgrt.png')]
+  md:rounded-full
+  after:absolute after:inset-0 after:bg-black/20
+  md:after:hidden"
+      >
+        <div className="max-w-2xl space-y-6 w-full flex justify-center z-2 ">
+          <div className="flex flex-col p-4 h-fit">
+            <p className="text-4xl font-bold leading-tight md:text-6xl flex justify-center md:block">
+              <span className="text-white md:text-black">Welcome to </span>
+              <span className="text-orange-500">Samer Store</span>
             </p>
 
-            <p className="mb-6 max-w-xl text-sm leading-6 sm:text-base sm:leading-7 md:mb-20 md:text-lg">
+            <p className="max-w-xl text-base leading-7 md:text-lg mb-20 text-white md:text-black text-center md:text-left">
               Browse thousands of high-quality products from trusted brands at
               competitive prices. Fast, secure, and convenient shopping.
             </p>
 
             <Button
-              className="w-full rounded-full px-8 py-6 text-base font-semibold md:w-fit"
-              onClick={() => navigation({ to: "/stores/newarrivals" })}
+              className="rounded-full px-8 py-6 text-base font-semibold w-full  md:w-fit"
+              onClick={() => navigation({ to: "/stores" })}
             >
               Go to Store
             </Button>
           </div>
-        </div>
-
-        <div className="w-full md:hidden">
-          <img
-            src="/bgMobile.png"
-            alt="Samer Store"
-            className="mx-auto aspect-square w-full max-w-md rounded-2xl object-cover"
-          />
         </div>
       </div>
       <div>
