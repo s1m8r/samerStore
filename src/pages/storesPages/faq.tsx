@@ -29,13 +29,17 @@ export default function Faqs() {
   ];
 
   return (
-    <Accordion type="multiple" className="w-full">
+    <Accordion type="multiple" className="w-full space-y-3">
       {items.map((item) => (
-        <AccordionItem key={item.value} value={item.value}>
-          <AccordionTrigger className="text-base font-medium py-4">
+        <AccordionItem
+          key={item.value}
+          value={item.value}
+          className="rounded-2xl border border-border px-4 last:border-b"
+        >
+          <AccordionTrigger className="py-4 text-base font-semibold hover:no-underline">
             {item.trigger}
           </AccordionTrigger>
-          <AccordionContent className="text-base text-muted-foreground">
+          <AccordionContent className="text-base leading-6 text-muted-foreground">
             {item.content}
           </AccordionContent>
         </AccordionItem>

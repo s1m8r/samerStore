@@ -80,9 +80,9 @@ export default function Content({
     <div className="px-4 md:px-12">
       <div className="">
         <TitleContent title={name} />
-        <div className="flex gap-4 mb-4 flex-col md:flex-row">
-          <div className="flex flex-col-reverse gap-1.5 md:flex-row">
-            <div className="w-full max-w-full overflow-hidden md:w-24">
+        <div className="animate-in flex gap-4 mb-4 flex-col fade-in slide-in-from-bottom-2 duration-700 md:flex-row">
+          <div className="flex flex-col-reverse gap-2 md:flex-row">
+            <div className="w-full max-w-full overflow-hidden md:w-20">
               <Swiper
                 modules={[Thumbs, Scrollbar]}
                 onSwiper={setThumbsSwiper}
@@ -103,13 +103,14 @@ export default function Content({
               >
                 <SwiperSlide
                   onClick={() => setActiveThumb(0)}
-                  className={`flex! h-24! w-24! shrink-0! items-center! justify-center! cursor-pointer
-      ${activeThumb === 0 ? "border-2 border-amber-700" : ""}`}
+                  className={`flex! h-20! w-20! shrink-0! cursor-pointer! items-center! justify-center! rounded-xl! border! ${
+                    activeThumb === 0 ? "border-primary!" : "border-border!"
+                  }`}
                 >
                   <img
                     src={image}
                     alt=""
-                    className="h-full w-full rounded-[8px] object-cover"
+                    className="h-full w-full rounded-[10px] object-cover"
                   />
                 </SwiperSlide>
 
@@ -117,13 +118,16 @@ export default function Content({
                   <SwiperSlide
                     key={item.path}
                     onClick={() => setActiveThumb(i + 1)}
-                    className={`flex! h-24! w-24! shrink-0! items-center! justify-center! cursor-pointer
-        ${activeThumb === i + 1 ? "border-2 border-amber-700" : ""}`}
+                    className={`flex! h-20! w-20! shrink-0! cursor-pointer! items-center! justify-center! rounded-xl! border! ${
+                      activeThumb === i + 1
+                        ? "border-primary!"
+                        : "border-border!"
+                    }`}
                   >
                     <img
                       src={item.path}
                       alt=""
-                      className="h-full w-full rounded-[8px] object-cover"
+                      className="h-full w-full rounded-[10px] object-cover"
                     />
                   </SwiperSlide>
                 ))}
@@ -136,7 +140,7 @@ export default function Content({
                 navigation
                 pagination={{ clickable: true }}
                 zoom
-                className="m-0! flex aspect-square w-full max-w-sm rounded-[8px]"
+                className="m-0! flex aspect-square w-full max-w-sm overflow-hidden rounded-2xl! bg-muted"
                 onSlideChange={(swiper) => setActiveThumb(swiper.activeIndex)}
               >
                 <SwiperSlide className="m-0 flex! items-center!">
@@ -172,8 +176,8 @@ export default function Content({
                     <span className="text-base text-muted-foreground line-through">
                       ${price.toFixed(2)}
                     </span>
-                    <span className="rounded-full bg-red-50 px-2 text-base text-red-500">
-                      {discountPercentage}%
+                    <span className="rounded-full bg-primary/10 px-2 py-0.5 text-sm font-semibold text-primary">
+                      -{discountPercentage}%
                     </span>
                   </div>
                 )}
@@ -186,18 +190,22 @@ export default function Content({
               <span className="text-sm text-muted-foreground">
                 Select Color
               </span>
-              <div className="flex gap-2">
+              <div className="flex gap-3">
                 {colors.map((item) => (
-                  <span
+                  <button
                     key={item.color}
                     onClick={() => setSelectedColor(item.color)}
-                    className={`w-8 h-8 rounded-full cursor-pointer flex justify-center items-center`}
+                    className={`flex h-9 w-9 cursor-pointer items-center justify-center rounded-full ring-1 ring-offset-2 ring-offset-background transition-all ${
+                      selectedColor === item.color
+                        ? "ring-2 ring-primary"
+                        : "ring-border"
+                    }`}
                     style={{ backgroundColor: item.color }}
                   >
                     {selectedColor === item.color && (
-                      <Check className="text-white" size={20} />
+                      <Check className="text-white drop-shadow-sm" size={16} />
                     )}
-                  </span>
+                  </button>
                 ))}
               </div>
               <>
@@ -245,19 +253,43 @@ export default function Content({
           </div>
         </div>
 
-        <Tabs defaultValue="Reviews">
-          <TabsList variant="line">
-            <TabsTrigger value="Reviews">Rating & Reviews</TabsTrigger>
-            <TabsTrigger value="faqs">FAQs</TabsTrigger>
+        <Tabs defaultValue="Reviews" className="mt-4">
+          <TabsList
+            variant="line"
+            className="mb-6 h-auto gap-6 border-b border-border pb-0"
+          >
+            <TabsTrigger
+              value="Reviews"
+              className="rounded-none px-0 pb-3 text-base font-semibold data-active:bg-transparent"
+            >
+              Rating & Reviews
+            </TabsTrigger>
+            <TabsTrigger
+              value="faqs"
+              className="rounded-none px-0 pb-3 text-base font-semibold data-active:bg-transparent"
+            >
+              FAQs
+            </TabsTrigger>
           </TabsList>
-          <TabsContent value="Reviews">
-            <div className="flex justify-between">
-              <TitleContent title="All Reviews" isRegister={true} />
+          <TabsContent
+            value="Reviews"
+            className="animate-in fade-in duration-500"
+          >
+            <div className="flex items-center justify-between">
+              <h3 className="text-xl font-bold">All reviews</h3>
               <WriteReview id={id} name={name} storeName={storeName} />
             </div>
-            <ReadView id={id} name={name} storeName={storeName} />
+            <div className="mt-6">
+              <ReadView id={id} name={name} storeName={storeName} />
+            </div>
           </TabsContent>
-          <TabsContent value="faqs" className="w-full">
+          <TabsContent
+            value="faqs"
+            className="w-full animate-in fade-in duration-500"
+          >
+            <h3 className="mb-4 text-xl font-bold">
+              Frequently asked questions
+            </h3>
             <Faqs />
           </TabsContent>
         </Tabs>

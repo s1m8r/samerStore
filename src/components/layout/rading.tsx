@@ -6,7 +6,7 @@ interface Props {
 }
 
 export default function Rating({ rating, type }: Props) {
-  const size = type === "main" ? 18 : 20;
+  const size = type === "main" ? 18 : 26;
   return (
     <>
       <div className="gap-2 flex">
@@ -25,8 +25,8 @@ export default function Rating({ rating, type }: Props) {
           )}
         </div>
         <div>
-          <span className="text-lg font-bold">{rating}</span>
-          <span className="text-sm text-muted-foreground">/5</span>
+          <span className="text-xl font-bold">{rating}</span>
+          <span className="text-base text-muted-foreground">/5</span>
         </div>
       </div>
     </>

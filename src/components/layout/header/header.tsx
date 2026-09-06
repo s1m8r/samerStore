@@ -17,12 +17,15 @@ import {
   Loader2,
   LogOutIcon,
   Menu,
+  Moon,
   Search,
   ShoppingCart,
+  Sun,
   UserIcon,
   X,
 } from "lucide-react";
 import { useAuthStore } from "@/stores/userStore";
+import { useThemeStore } from "@/stores/themeStore";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -66,6 +69,7 @@ const Header = () => {
   const closeMenu = () => {
     setOpenMenu(false);
   };
+  const { theme, toggleTheme } = useThemeStore();
 
   return (
     <div className="sticky top-0 z-50 w-full border-b border-border bg-background/80 px-2 backdrop-blur-md md:px-12">
@@ -76,7 +80,10 @@ const Header = () => {
             alt="Logo"
             className="h-12 w-12 object-contain"
           />
-          <span className="text-xl font-bold">Samer Shop</span>
+          <span className="text-xl font-bold">
+            <span className="text-foreground">Samer</span>{" "}
+            <span className="text-primary">Shop</span>
+          </span>
         </Link>
         <NavigationMenu className="shrink-0">
           <NavigationMenuList>
@@ -172,6 +179,13 @@ const Header = () => {
 
         <div className="flex shrink-0 items-center gap-4">
           <button
+            aria-label="Toggle theme"
+            onClick={toggleTheme}
+            className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full hover:bg-muted"
+          >
+            {theme === "dark" ? <Sun size={19} /> : <Moon size={19} />}
+          </button>
+          <button
             className="relative cursor-pointer"
             onClick={() => navigator({ to: "/mycart" })}
           >
@@ -234,9 +248,19 @@ const Header = () => {
               alt="Logo"
               className="h-12 w-12 object-contain"
             />
-            <span className="text-xl font-bold">Samer Shop</span>
+            <span className="text-xl font-bold">
+            <span className="text-foreground">Samer</span>{" "}
+            <span className="text-primary">Shop</span>
+          </span>
           </Link>
           <div className="flex items-center gap-3">
+            <button
+              aria-label="Toggle theme"
+              onClick={toggleTheme}
+              className="flex h-9 w-9 items-center justify-center rounded-full hover:bg-muted"
+            >
+              {theme === "dark" ? <Sun size={19} /> : <Moon size={19} />}
+            </button>
             <button onClick={() => setOpenSearch((prev) => !prev)}>
               <Search />
             </button>
@@ -295,7 +319,7 @@ const Header = () => {
         </div>
 
         {openMenu && (
-          <div className="border-t border-border bg-background py-4">
+          <div className="animate-in border-t border-border bg-background py-4 fade-in slide-in-from-top-2 duration-300">
             <div className="flex flex-col gap-1">
               <Link
                 to="/"
@@ -348,7 +372,7 @@ const Header = () => {
         )}
 
         {openSearch && (
-          <div className="relative w-full px-2 pb-3">
+          <div className="animate-in relative w-full px-2 pb-3 fade-in slide-in-from-top-2 duration-300">
             <InputGroup className="w-full bg-muted">
               <InputGroupInput
                 placeholder="Search products..."

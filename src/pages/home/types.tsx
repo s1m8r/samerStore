@@ -5,7 +5,7 @@ const TypesHome = () => {
   const { data } = useGetTypes();
   const navigate = useNavigate();
   return (
-    <div className="rounded-3xl bg-[#f0f0f0] p-8 overflow-hidden shadow-sm ring-1 ring-black/5">
+    <div className="animate-in rounded-3xl bg-[#f0f0f0] p-8 overflow-hidden shadow-sm ring-1 ring-black/5 fade-in slide-in-from-bottom-2 duration-700">
       <h2 className="relative text-3xl font-bold text-center uppercase tracking-wide mb-8">
         BROWSE BY dress STYLE
       </h2>

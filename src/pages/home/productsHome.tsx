@@ -1,5 +1,4 @@
 import ShowProduct from "@/components/layout/showproduct";
-import { Button } from "@/components/ui/button";
 import { ProdectScema } from "@/schemas/product";
 import z from "zod";
 
@@ -13,19 +12,25 @@ interface Props {
 
 export default function ProductsHome({ title, product, goToShow }: Props) {
   return (
-    <section className="container flex flex-col items-center space-y-6 py-8 sm:space-y-8 sm:py-10">
-      <div className="mb-2 sm:mb-4">
-        <h1 className="text-2xl font-bold sm:text-3xl">
-          {title.toUpperCase()}
-        </h1>
+    <section className="py-10 sm:py-14">
+      <div className="mb-6 flex items-end justify-between gap-4 sm:mb-8">
+        <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
+          {title}
+        </h2>
+        <button
+          onClick={goToShow}
+          className="shrink-0 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+        >
+          View all
+        </button>
       </div>
 
       {product.length === 0 ? (
-        <div className="flex h-40 items-center justify-center rounded-lg border">
+        <div className="flex h-40 items-center justify-center rounded-lg border border-border">
           <p className="text-muted-foreground">No products found.</p>
         </div>
       ) : (
-        <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-8">
+        <div className="animate-in grid w-full grid-cols-2 gap-4 fade-in slide-in-from-bottom-2 duration-700 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-6">
           {product.map((item) => (
             <ShowProduct
               key={item.id}
@@ -40,13 +45,6 @@ export default function ProductsHome({ title, product, goToShow }: Props) {
           ))}
         </div>
       )}
-      <Button
-        variant="outline"
-        className="w-fit px-12 rounded-full"
-        onClick={goToShow}
-      >
-        View All
-      </Button>
     </section>
   );
 }

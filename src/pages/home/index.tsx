@@ -13,60 +13,91 @@ const Home = () => {
   const { data: peoductsTop } = useGetProducts(4, "rating");
   return (
     <>
-      <div
-        className="z-1  relative
-  h-screen md:h-fit
-  bg-[url('/bgMobile.png')] bg-cover bg-center bg-no-repeat
-  flex items-center p-2 md:p-30
-  md:bg-[url('/bgrt.png')]
-  md:rounded-full
-  after:absolute after:inset-0 after:bg-black/20
-  md:after:hidden"
-      >
-        <div className="max-w-2xl space-y-6 w-full flex justify-center z-2 ">
-          <div className="flex flex-col p-4 h-fit">
-            <p className="text-4xl font-bold leading-tight md:text-6xl grid justify-center md:block">
-              <span className="text-white md:text-black">Welcome to </span>
-              <span className="text-orange-500">Samer Store</span>
-            </p>
+      <section className="relative overflow-hidden bg-background">
+        <div className="relative hidden w-full md:block">
+          <div className="relative aspect-1440/663 w-full bg-[#f6f5f5]">
+            <img
+              src="/bgrt.png"
+              alt="Two models in denim jackets and hoodies"
+              className="absolute inset-0 h-full w-full object-contain"
+            />
+            <div className="absolute inset-y-0 left-0 flex w-[55%] animate-in flex-col justify-center px-10 fade-in slide-in-from-bottom-4 duration-700 lg:px-16">
+              <h1 className="text-4xl font-bold leading-[1.05] tracking-tight text-foreground lg:text-5xl xl:text-6xl">
+                Wear the street.
+                <br />
+                Not the trend.
+              </h1>
+              <p className="mt-4 max-w-sm text-base leading-7 text-muted-foreground">
+                Denim, hoodies and accessories from independent stores — new
+                drops every week.
+              </p>
+              <Button
+                className="mt-8 w-fit rounded-full bg-primary px-8 py-6 text-base font-semibold text-primary-foreground hover:bg-primary/90"
+                onClick={() => navigation({ to: "/stores/newarrivals" })}
+              >
+                Shop new arrivals
+              </Button>
+            </div>
+          </div>
+        </div>
 
-            <p className="max-w-xl text-base leading-7 md:text-lg mb-20 text-white md:text-black text-center md:text-left">
-              Browse thousands of high-quality products from trusted brands at
-              competitive prices. Fast, secure, and convenient shopping.
+        <div className="relative w-full md:hidden">
+          <div className="relative aspect-square w-full bg-[#f6f5f5]">
+            <img
+              src="/bgMobile.png"
+              alt="Two models in denim jackets and hoodies"
+              className="absolute inset-0 h-full w-full object-contain"
+            />
+          </div>
+          <div className="animate-in px-5 py-6 text-center fade-in slide-in-from-bottom-4 duration-700">
+            <h1 className="text-3xl font-bold leading-[1.05] tracking-tight">
+              Wear the street.
+              <br />
+              Not the trend.
+            </h1>
+            <p className="mt-3 text-sm leading-6 text-muted-foreground">
+              Denim, hoodies and accessories — new drops every week.
             </p>
-
             <Button
-              className="rounded-full px-8 py-6 text-base font-semibold w-full  md:w-fit"
+              className="mt-5 w-full rounded-full bg-primary py-6 text-base font-semibold text-primary-foreground hover:bg-primary/90"
               onClick={() => navigation({ to: "/stores/newarrivals" })}
             >
-              Go to Store
+              Shop new arrivals
             </Button>
           </div>
         </div>
-      </div>
-      <div>
-        <Marquee pauseOnHover className="bg-black h-24 p-8">
-          {data?.data.map((image) => (
-            <img
-              key={image.id}
-              src={image.image}
-              className=" object-cover rounded-lg overflow-hidden mx-12"
-            />
+      </section>
+
+      <div className="animate-in bg-[#0a0a0a] py-5 fade-in duration-700">
+        <Marquee pauseOnHover className="[--gap:0.75rem]">
+          {data?.data.map((store) => (
+            <button
+              key={store.id}
+              onClick={() => navigation({ to: `/stores/${store.id}` })}
+              className="flex h-16 w-28 shrink-0 items-center justify-center rounded-xl bg-white/5 p-2 transition-colors hover:bg-white/10"
+            >
+              <img
+                src={store.image}
+                alt={store.name}
+                className="max-h-full max-w-full object-contain"
+              />
+            </button>
           ))}
         </Marquee>
-        <div className="p-4 md:p-24">
-          <ProductsHome
-            title="NEW ARRIVALS"
-            product={peoducts?.data ?? []}
-            goToShow={() => navigation({ to: "/stores/newarrivals" })}
-          />
-          <ProductsHome
-            title="top selling"
-            product={peoductsTop?.data ?? []}
-            goToShow={() => navigation({ to: "/stores/TopSell" })}
-          />
-          <TypesHome />
-        </div>
+      </div>
+
+      <div className="px-5 md:px-12">
+        <ProductsHome
+          title="New arrivals"
+          product={peoducts?.data ?? []}
+          goToShow={() => navigation({ to: "/stores/newarrivals" })}
+        />
+        <ProductsHome
+          title="Top selling"
+          product={peoductsTop?.data ?? []}
+          goToShow={() => navigation({ to: "/stores/TopSell" })}
+        />
+        <TypesHome />
       </div>
     </>
   );
