@@ -25,7 +25,7 @@ const Home = () => {
       >
         <div className="max-w-2xl space-y-6 w-full flex justify-center z-2 ">
           <div className="flex flex-col p-4 h-fit">
-            <p className="text-4xl font-bold leading-tight md:text-6xl flex justify-center md:block">
+            <p className="text-4xl font-bold leading-tight md:text-6xl grid justify-center md:block">
               <span className="text-white md:text-black">Welcome to </span>
               <span className="text-orange-500">Samer Store</span>
             </p>
@@ -37,7 +37,7 @@ const Home = () => {
 
             <Button
               className="rounded-full px-8 py-6 text-base font-semibold w-full  md:w-fit"
-              onClick={() => navigation({ to: "/stores" })}
+              onClick={() => navigation({ to: "/stores/newarrivals" })}
             >
               Go to Store
             </Button>

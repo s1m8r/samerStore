@@ -172,7 +172,7 @@ const Header = () => {
 
         <div className="flex shrink-0 items-center gap-4">
           <button
-            className="relative"
+            className="relative cursor-pointer"
             onClick={() => navigator({ to: "/mycart" })}
           >
             <ShoppingCart />

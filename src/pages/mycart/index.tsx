@@ -5,12 +5,25 @@ import { useCartStore } from "@/stores/cartStore";
 import { useAuthStore } from "@/stores/userStore";
 import { useNavigate } from "@tanstack/react-router";
 import { Minus, Plus, Trash2 } from "lucide-react";
+import { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 const MyCart = () => {
   const { mutate } = useCart();
   const user = useAuthStore.getState().user;
+  const [open, setOpen] = useState(false);
   const goCart = () => {
-    if (totalPrice() === 0) return null;
+    if (!user) {
+      setOpen(true);
+      return;
+    }
+    if (totalPrice() === 0) return;
     const array = items.map((item) => ({
       color: item.color,
       productId: item.productId,
@@ -21,18 +34,17 @@ const MyCart = () => {
       discount: item.discount,
     }));
 
-    if (user)
-      mutate(
-        {
-          data: array,
-          email: user.email,
+    mutate(
+      {
+        data: array,
+        email: user.email,
+      },
+      {
+        onSuccess: () => {
+          clearCart();
         },
-        {
-          onSuccess: () => {
-            clearCart();
-          },
-        },
-      );
+      },
+    );
   };
   const {
     items,
@@ -109,9 +121,7 @@ const MyCart = () => {
           {items.length === 0 && (
             <div className="flex flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-border py-16 text-muted-foreground">
               <span>Your cart is empty.</span>
-              <Button onClick={() => navigator({ to: "/" })}>
-                Go to Home
-              </Button>
+              <Button onClick={() => navigator({ to: "/" })}>Go to Home</Button>
             </div>
           )}
         </div>
@@ -148,6 +158,19 @@ const MyCart = () => {
               >
                 Buy
               </Button>
+              <Dialog open={open} onOpenChange={setOpen}>
+                <DialogContent showCloseButton>
+                  <DialogHeader>
+                    <DialogTitle>Please Login</DialogTitle>
+                    <DialogDescription>
+                      You need to be logged in to complete your purchase.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <Button onClick={() => navigator({ to: "/login" })}>
+                    Go to Login
+                  </Button>
+                </DialogContent>
+              </Dialog>
             </div>
           </div>
         </div>

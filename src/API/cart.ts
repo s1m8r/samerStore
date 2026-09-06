@@ -20,7 +20,7 @@ type productAll = {
   };
 };
 
-export const useGetCart = (search = "") => {
+export const useGetCart = (search = "", enabled = true) => {
   return useQuery<productAll>({
     queryKey: [...queryKey, search],
 
@@ -29,6 +29,7 @@ export const useGetCart = (search = "") => {
 
       return res.data;
     },
+    enabled,
     placeholderData: keepPreviousData,
   });
 };

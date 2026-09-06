@@ -6,7 +6,7 @@ import { useNavigate } from "@tanstack/react-router";
 
 const MyOrders = () => {
   const user = useAuthStore.getState().user?.email;
-  const { data } = useGetCart(user ?? "");
+  const { data } = useGetCart(user ?? "", !!user);
   const navigator = useNavigate();
 
   const orders = data?.data ?? [];
@@ -26,7 +26,15 @@ const MyOrders = () => {
     <div className="px-4 md:px-12">
       <TitleContent title="My Orders" />
 
-      {orders.length === 0 ? (
+      {!user ? (
+        <div className="flex flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-border py-20 text-muted-foreground">
+          <span>Please Login to view your orders.</span>
+
+          <Button onClick={() => navigator({ to: "/login" })}>
+            Go to Login
+          </Button>
+        </div>
+      ) : orders.length === 0 ? (
         <div className="flex flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-border py-20 text-muted-foreground">
           <span>No orders yet.</span>
 
