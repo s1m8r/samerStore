@@ -17,15 +17,12 @@ import {
   Loader2,
   LogOutIcon,
   Menu,
-  Moon,
   Search,
   ShoppingCart,
-  Sun,
   UserIcon,
   X,
 } from "lucide-react";
 import { useAuthStore } from "@/stores/userStore";
-import { useThemeStore } from "@/stores/themeStore";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -69,7 +66,6 @@ const Header = () => {
   const closeMenu = () => {
     setOpenMenu(false);
   };
-  const { theme, toggleTheme } = useThemeStore();
 
   return (
     <div className="sticky top-0 z-50 w-full border-b border-border bg-background/80 px-2 backdrop-blur-md md:px-12">
@@ -179,13 +175,6 @@ const Header = () => {
 
         <div className="flex shrink-0 items-center gap-4">
           <button
-            aria-label="Toggle theme"
-            onClick={toggleTheme}
-            className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full hover:bg-muted"
-          >
-            {theme === "dark" ? <Sun size={19} /> : <Moon size={19} />}
-          </button>
-          <button
             className="relative cursor-pointer"
             onClick={() => navigator({ to: "/mycart" })}
           >
@@ -254,13 +243,6 @@ const Header = () => {
           </span>
           </Link>
           <div className="flex items-center gap-3">
-            <button
-              aria-label="Toggle theme"
-              onClick={toggleTheme}
-              className="flex h-9 w-9 items-center justify-center rounded-full hover:bg-muted"
-            >
-              {theme === "dark" ? <Sun size={19} /> : <Moon size={19} />}
-            </button>
             <button onClick={() => setOpenSearch((prev) => !prev)}>
               <Search />
             </button>
