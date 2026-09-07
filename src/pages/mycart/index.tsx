@@ -57,7 +57,7 @@ const MyCart = () => {
   } = useCartStore();
   const navigator = useNavigate();
   return (
-    <div className="px-4 py-4 sm:px-6 lg:px-12">
+    <div className="px-4 py-4 md:px-12">
       <TitleContent title="My Cart" />
       <div className="grid grid-cols-1 gap-4 md:grid-cols-12">
         <div className="md:col-span-8">

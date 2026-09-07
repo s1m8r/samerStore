@@ -9,14 +9,14 @@ interface Props {
 export default function TitleContent({ title, isRegister = false }: Props) {
   const router = useRouter();
   return (
-    <div className=" flex mb-4 ">
+    <div className="flex items-center mb-4">
       {!isRegister && (
         <ArrowLeft
           onClick={() => router.history.back()}
           className="cursor-pointer"
         />
       )}
-      <h1 className="text-lg font-semibold ml-2">{title}</h1>
+      <h1 className="text-lg font-semibold ml-2 capitalize">{title}</h1>
     </div>
   );
 }

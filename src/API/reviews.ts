@@ -1,4 +1,9 @@
-import { keepPreviousData, useMutation, useQuery } from "@tanstack/react-query";
+import {
+  keepPreviousData,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import api from "./axios";
 import z from "zod";
 import { reviewScema } from "@/schemas/reviews";
@@ -33,10 +38,14 @@ export const useGetreviews = (search = "") => {
 };
 
 export const usePostView = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (data: productFormData) => {
       const res = await api.post("/api/collection/reviews", data);
       return res.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey });
     },
   });
 };

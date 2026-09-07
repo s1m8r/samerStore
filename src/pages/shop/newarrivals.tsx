@@ -4,11 +4,11 @@ import StoreUi from "@/components/layout/stores";
 import Paginations from "@/components/layout/pagination";
 const NewArrivals = () => {
   const [page, setPage] = useState(1);
-  const { data: products } = useGetProducts(8);
+  const { data: products } = useGetProducts(8, "", page);
   const [color, setColor] = useState("");
   console.log(color);
   return (
-    <div className="py-4">
+    <>
       <StoreUi
         title={"New Arrivals"}
         products={products?.data ?? []}
@@ -22,7 +22,7 @@ const NewArrivals = () => {
         page={page}
         setPage={setPage}
       />
-    </div>
+    </>
   );
 };
 

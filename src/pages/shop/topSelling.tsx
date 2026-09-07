@@ -8,10 +8,12 @@ const TopSell = () => {
   const [color, setColor] = useState("");
   console.log(color);
   return (
-    <div className="py-4">
+    <>
       <StoreUi
         title={"TOP SELLING"}
-        products={products?.data ?? []}
+        products={
+          products?.data.filter((item) => item.discountPercentage > 0) ?? []
+        }
         setColor={setColor}
       />
       <Paginations
@@ -22,7 +24,7 @@ const TopSell = () => {
         page={page}
         setPage={setPage}
       />
-    </div>
+    </>
   );
 };
 

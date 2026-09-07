@@ -6,7 +6,7 @@ const Footer = () => {
   const { data: Shop } = useGetStores();
 
   return (
-    <footer className="w-full border-t border-border bg-background px-2 md:px-12">
+    <footer className="w-full border-t border-border bg-background px-2 mt-16 md:px-12">
       <div className="mx-auto grid grid-cols-1 gap-8 px-4 py-10 sm:grid-cols-2 lg:grid-cols-4">
         <div className="flex flex-col gap-3">
           <Link to="/" className="flex items-center gap-2">

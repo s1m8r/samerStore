@@ -13,7 +13,7 @@ interface Props {
 export default function StoreUi({ title, products, setColor }: Props) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="grid grid-cols-1 gap-6 px-4 sm:px-6 md:grid-cols-12 lg:px-8">
+    <div className="grid grid-cols-1 gap-6 px-4 py-4 md:grid-cols-12 md:px-12">
       <div className="mb-2 hidden h-fit self-start rounded-2xl border border-border px-4 py-6 sticky top-20 md:col-span-3 md:block lg:col-span-2">
         <div className="flex items-center justify-between">
           <span className="font-bold">Filters</span>
@@ -25,7 +25,7 @@ export default function StoreUi({ title, products, setColor }: Props) {
       </div>
       <div className="md:col-span-9 lg:col-span-10">
         <div className="flex items-center justify-between">
-          <TitleContent title={title ?? ""} isRegister={true} />
+          <TitleContent title={title ?? ""} />
           <button
             onClick={() => setOpen(!open)}
             className="flex h-9 w-9 items-center justify-center rounded-lg border border-border md:hidden"
