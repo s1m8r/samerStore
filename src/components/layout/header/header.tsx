@@ -138,7 +138,7 @@ const Header = () => {
             )}
           </InputGroup>
 
-          {query && (
+          {query && !isSearching && (
             <div className="absolute left-6 right-6 top-full z-50 mt-2 max-h-96 overflow-y-auto rounded-xl border border-border bg-background p-2 shadow-lg">
               {products?.data.length ? (
                 products.data.map((item) => (
@@ -384,7 +384,7 @@ const Header = () => {
                 </InputGroupAddon>
               )}
             </InputGroup>
-            {query && (
+            {query && !isSearching && (
               <div className="absolute left-2 right-2 top-full z-50 mt-2 max-h-96 overflow-y-auto rounded-xl border border-border bg-background p-2 shadow-lg">
                 {products?.data.length ? (
                   products.data.map((item) => (
