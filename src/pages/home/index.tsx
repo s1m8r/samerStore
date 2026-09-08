@@ -9,8 +9,11 @@ import TypesHome from "./types";
 const Home = () => {
   const navigation = useNavigate();
   const { data } = useGetStores();
-  const { data: peoducts } = useGetProducts(4, "id");
-  const { data: peoductsTop } = useGetProducts(4, "rating");
+  const { data: peoducts, isLoading: isLoadingNew } = useGetProducts(4, "id");
+  const { data: peoductsTop, isLoading: isLoadingTop } = useGetProducts(
+    4,
+    "rating",
+  );
   return (
     <>
       <section className="relative overflow-hidden bg-background">
@@ -91,11 +94,13 @@ const Home = () => {
           title="New arrivals"
           product={peoducts?.data ?? []}
           goToShow={() => navigation({ to: "/stores/newarrivals" })}
+          isLoading={isLoadingNew}
         />
         <ProductsHome
           title="Top selling"
           product={peoductsTop?.data ?? []}
           goToShow={() => navigation({ to: "/stores/TopSell" })}
+          isLoading={isLoadingTop}
         />
         <TypesHome />
       </div>

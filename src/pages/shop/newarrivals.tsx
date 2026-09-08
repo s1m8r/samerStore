@@ -4,7 +4,7 @@ import StoreUi from "@/components/layout/stores";
 import Paginations from "@/components/layout/pagination";
 const NewArrivals = () => {
   const [page, setPage] = useState(1);
-  const { data: products } = useGetProducts(8, "", page);
+  const { data: products, isLoading } = useGetProducts(8, "", page);
   const [color, setColor] = useState("");
   console.log(color);
   return (
@@ -13,6 +13,7 @@ const NewArrivals = () => {
         title={"New Arrivals"}
         products={products?.data ?? []}
         setColor={setColor}
+        isLoading={isLoading}
       />
       <Paginations
         currentPage={products?.pagination.currentPage ?? 0}

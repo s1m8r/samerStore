@@ -1,4 +1,5 @@
 import { useGetreviews } from "@/API/reviews";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Star } from "lucide-react";
 interface Props {
   id: number;
@@ -7,7 +8,28 @@ interface Props {
 }
 export default function ReadView({ id, name, storeName }: Props) {
   const search = id + name + storeName;
-  const { data: myReviews } = useGetreviews(search);
+  const { data: myReviews, isLoading } = useGetreviews(search);
+
+  if (isLoading) {
+    return (
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <div key={i} className="space-y-3 rounded-2xl border border-border p-4">
+            <div className="flex items-center gap-3">
+              <Skeleton className="h-9 w-9 shrink-0 rounded-full" />
+              <div className="min-w-0 flex-1 space-y-1.5">
+                <Skeleton className="h-4 w-24" />
+                <Skeleton className="h-3 w-16" />
+              </div>
+            </div>
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-2/3" />
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   if (!myReviews?.data.length) {
     return (
       <div className="flex h-32 items-center justify-center rounded-2xl border border-border">

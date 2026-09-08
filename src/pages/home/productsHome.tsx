@@ -1,4 +1,5 @@
 import ShowProduct from "@/components/layout/showproduct";
+import ProductCardSkeleton from "@/components/layout/productCardSkeleton";
 import { ProdectScema } from "@/schemas/product";
 import z from "zod";
 
@@ -8,9 +9,15 @@ interface Props {
   title: string;
   product: ProductFormData[];
   goToShow?: () => void;
+  isLoading?: boolean;
 }
 
-export default function ProductsHome({ title, product, goToShow }: Props) {
+export default function ProductsHome({
+  title,
+  product,
+  goToShow,
+  isLoading,
+}: Props) {
   return (
     <section className="py-10 sm:py-14">
       <div className="mb-6 flex items-end justify-between gap-4 sm:mb-8">
@@ -25,7 +32,13 @@ export default function ProductsHome({ title, product, goToShow }: Props) {
         </button>
       </div>
 
-      {product.length === 0 ? (
+      {isLoading ? (
+        <div className="grid w-full grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-6">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <ProductCardSkeleton key={i} />
+          ))}
+        </div>
+      ) : product.length === 0 ? (
         <div className="flex h-40 items-center justify-center rounded-lg border border-border">
           <p className="text-muted-foreground">No products found.</p>
         </div>

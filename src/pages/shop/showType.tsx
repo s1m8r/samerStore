@@ -9,7 +9,12 @@ const ShowType = () => {
   const { data: types } = useGetType(id);
   const title = types?.name;
   const [page, setPage] = useState(1);
-  const { data: products } = useGetProducts(8, "", page, types?.value);
+  const { data: products, isLoading } = useGetProducts(
+    8,
+    "",
+    page,
+    types?.value,
+  );
   const [color, setColor] = useState("");
   console.log(color);
   return (
@@ -18,6 +23,7 @@ const ShowType = () => {
         title={title ?? ""}
         products={products?.data ?? []}
         setColor={setColor}
+        isLoading={isLoading}
       />
       <Paginations
         currentPage={products?.pagination.currentPage ?? 0}

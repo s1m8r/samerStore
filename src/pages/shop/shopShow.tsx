@@ -10,7 +10,7 @@ const ShopShow = () => {
   const title = data?.name;
   const [page, setPage] = useState(1);
 
-  const { data: products } = useGetProducts(8, "", page, title);
+  const { data: products, isLoading } = useGetProducts(8, "", page, title);
   const [color, setColor] = useState("");
   console.log(color);
   return (
@@ -19,6 +19,7 @@ const ShopShow = () => {
         title={title ?? ""}
         products={products?.data ?? []}
         setColor={setColor}
+        isLoading={isLoading}
       />
       <Paginations
         currentPage={products?.pagination.currentPage ?? 0}

@@ -10,7 +10,10 @@ import {
 function PageTransition() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   return (
-    <div key={pathname} className="animate-in fade-in duration-300">
+    <div
+      key={pathname}
+      className="flex-1 animate-in fade-in duration-300"
+    >
       <Outlet />
     </div>
   );
@@ -19,9 +22,11 @@ function PageTransition() {
 export const Route = createRootRoute({
   component: () => (
     <TooltipProvider>
-      <Header />
-      <PageTransition />
-      <Footer />
+      <div className="flex min-h-screen flex-col">
+        <Header />
+        <PageTransition />
+        <Footer />
+      </div>
     </TooltipProvider>
   ),
 });

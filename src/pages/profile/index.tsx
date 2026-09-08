@@ -56,99 +56,94 @@ const Profile = () => {
     });
   };
   return (
-    <>
-      <div className="mx-auto w-full max-w-xl px-4 py-10 sm:p-12">
-        <div className="flex justify-center">
-          <div className="mb-8 flex h-20 w-20 items-center justify-center rounded-full bg-primary text-2xl font-bold text-primary-foreground">
-            {user?.firstName.charAt(0)}
-            {user?.lastName.charAt(0)}
-          </div>
-        </div>
-        <ProComponent
-          title="First Name"
-          dataInformation={user?.firstName ?? ""}
-        />
-        <ProComponent
-          title="Last Name"
-          dataInformation={user?.lastName ?? ""}
-        />
-        <ProComponent
-          title="Age"
-          dataInformation={user?.age?.toString() ?? ""}
-        />
-        <ProComponent title="Email" dataInformation={user?.email ?? ""} />
-        <ProComponent title="Phone" dataInformation={user?.phone ?? ""} />
-        <ProComponent title="Role" dataInformation={user?.role ?? ""} />
-        <div className="flex flex-col items-center">
-          <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild>
-              <Button variant="outline" className=" cursor-pointer mb-3">
-                Reset Password
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-sm ">
-              <DialogHeader>
-                <DialogTitle>Change your Password</DialogTitle>
-              </DialogHeader>
-              <FieldGroup>
-                <form onSubmit={handleSubmit(handleChange)}>
-                  <Field>
-                    <InputForm
-                      name="password"
-                      register={register}
-                      type="password"
-                      isPassword={true}
-                      icon={<KeyRoundIcon />}
-                      label="Password"
-                      ariaInvalid={!!errors.password?.message}
-                      errorMessage={errors.password?.message}
-                      placeholder="password"
-                    />
-                  </Field>
-                  <Field>
-                    <InputForm
-                      name="newPassword"
-                      register={register}
-                      type="password"
-                      isPassword={true}
-                      icon={<KeyRoundIcon />}
-                      label="newPassword"
-                      ariaInvalid={!!errors.newPassword?.message}
-                      errorMessage={errors.newPassword?.message}
-                      placeholder="newPassword"
-                    />
-                  </Field>
-                  <DialogFooter>
-                    <DialogClose asChild>
-                      <Button variant="outline" className="cursor-pointer">
-                        Cancel
-                      </Button>
-                    </DialogClose>
-                    <Button
-                      type="submit"
-                      disabled={isPending}
-                      className="cursor-pointer"
-                    >
-                      {isPending ? (
-                        <Spinner data-icon="inline-start" />
-                      ) : (
-                        "Save changes"
-                      )}
-                    </Button>
-                  </DialogFooter>
-                </form>
-              </FieldGroup>
-            </DialogContent>
-          </Dialog>
-          <button
-            onClick={handleLogout}
-            className=" text-red-700 font p-2 cursor-pointer"
-          >
-            logout
-          </button>
+    <div className="mx-auto w-full max-w-xl px-4 py-10 sm:p-12">
+      <div className="flex justify-center">
+        <div className="mb-8 flex h-20 w-20 items-center justify-center rounded-full bg-primary text-2xl font-bold text-primary-foreground">
+          {user?.firstName.charAt(0)}
+          {user?.lastName.charAt(0)}
         </div>
       </div>
-    </>
+      <ProComponent
+        title="First Name"
+        dataInformation={user?.firstName ?? ""}
+      />
+      <ProComponent title="Last Name" dataInformation={user?.lastName ?? ""} />
+      <ProComponent
+        title="Age"
+        dataInformation={user?.age?.toString() ?? ""}
+      />
+      <ProComponent title="Email" dataInformation={user?.email ?? ""} />
+      <ProComponent title="Phone" dataInformation={user?.phone ?? ""} />
+      <ProComponent title="Role" dataInformation={user?.role ?? ""} />
+      <div className="flex flex-col items-center gap-3 pt-2">
+        <Dialog open={open} onOpenChange={setOpen}>
+          <DialogTrigger asChild>
+            <Button variant="outline" className="cursor-pointer">
+              Reset Password
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-sm">
+            <DialogHeader>
+              <DialogTitle>Change your Password</DialogTitle>
+            </DialogHeader>
+            <FieldGroup>
+              <form onSubmit={handleSubmit(handleChange)}>
+                <Field>
+                  <InputForm
+                    name="password"
+                    register={register}
+                    type="password"
+                    isPassword={true}
+                    icon={<KeyRoundIcon />}
+                    label="Password"
+                    ariaInvalid={!!errors.password?.message}
+                    errorMessage={errors.password?.message}
+                    placeholder="password"
+                  />
+                </Field>
+                <Field>
+                  <InputForm
+                    name="newPassword"
+                    register={register}
+                    type="password"
+                    isPassword={true}
+                    icon={<KeyRoundIcon />}
+                    label="newPassword"
+                    ariaInvalid={!!errors.newPassword?.message}
+                    errorMessage={errors.newPassword?.message}
+                    placeholder="newPassword"
+                  />
+                </Field>
+                <DialogFooter>
+                  <DialogClose asChild>
+                    <Button variant="outline" className="cursor-pointer">
+                      Cancel
+                    </Button>
+                  </DialogClose>
+                  <Button
+                    type="submit"
+                    disabled={isPending}
+                    className="cursor-pointer"
+                  >
+                    {isPending ? (
+                      <Spinner data-icon="inline-start" />
+                    ) : (
+                      "Save changes"
+                    )}
+                  </Button>
+                </DialogFooter>
+              </form>
+            </FieldGroup>
+          </DialogContent>
+        </Dialog>
+        <button
+          onClick={handleLogout}
+          className="cursor-pointer p-2 text-sm font-medium text-destructive hover:underline"
+        >
+          Log out
+        </button>
+      </div>
+    </div>
   );
 };
 

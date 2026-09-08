@@ -40,17 +40,36 @@ import {
   InputGroupInput,
 } from "@/components/ui/input-group";
 import useDebounce from "./searchDelay";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useGetProducts } from "@/API/product";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const Header = () => {
   const { items, clearCart } = useCartStore();
   const [query, setQuery] = useState("");
   const [openSearch, setOpenSearch] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
+  const [showResults, setShowResults] = useState(false);
+  const desktopSearchRef = useRef<HTMLDivElement>(null);
+  const mobileSearchRef = useRef<HTMLDivElement>(null);
   const debounceQuery = useDebounce(query, 400);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Node;
+      if (
+        !desktopSearchRef.current?.contains(target) &&
+        !mobileSearchRef.current?.contains(target)
+      ) {
+        setShowResults(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () =>
+      document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
   const { data: products, isFetching } = useGetProducts(
-    10,
+    100000,
     "",
     1,
     debounceQuery,
@@ -62,7 +81,7 @@ const Header = () => {
   };
   const user = useAuthStore.getState().user;
   const logout = useAuthStore.getState().logout;
-  const { data: Shop } = useGetStores();
+  const { data: Shop, isLoading: isLoadingShops } = useGetStores();
   const closeMenu = () => {
     setOpenMenu(false);
   };
@@ -86,11 +105,19 @@ const Header = () => {
             <NavigationMenuItem>
               <NavigationMenuTrigger>Shops</NavigationMenuTrigger>
               <NavigationMenuContent>
-                {Shop?.data.map((item) => (
-                  <NavigationMenuLink key={item.id} asChild>
-                    <Link to={`/stores/${item.id}`}>{item.name}</Link>
-                  </NavigationMenuLink>
-                ))}
+                <div className="flex max-h-80 flex-col gap-1 overflow-y-auto">
+                  {isLoadingShops
+                    ? Array.from({ length: 4 }).map((_, i) => (
+                        <div key={i} className="px-3 py-2">
+                          <Skeleton className="h-4 w-24" />
+                        </div>
+                      ))
+                    : Shop?.data.map((item) => (
+                        <NavigationMenuLink key={item.id} asChild>
+                          <Link to={`/stores/${item.id}`}>{item.name}</Link>
+                        </NavigationMenuLink>
+                      ))}
+                </div>
               </NavigationMenuContent>
             </NavigationMenuItem>
             <NavigationMenuItem>
@@ -110,12 +137,16 @@ const Header = () => {
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
-        <div className="relative flex-1 px-6">
-          <InputGroup className="w-full bg-muted">
+        <div ref={desktopSearchRef} className="relative flex-1 px-6">
+          <InputGroup className="w-full bg-transparent">
             <InputGroupInput
               placeholder="Search products..."
               value={query}
-              onChange={(e) => setQuery(e.target.value)}
+              onChange={(e) => {
+                setQuery(e.target.value);
+                setShowResults(true);
+              }}
+              onFocus={() => setShowResults(true)}
             />
 
             <InputGroupAddon>
@@ -138,9 +169,19 @@ const Header = () => {
             )}
           </InputGroup>
 
-          {query && !isSearching && (
+          {query && showResults && (
             <div className="absolute left-6 right-6 top-full z-50 mt-2 max-h-96 overflow-y-auto rounded-xl border border-border bg-background p-2 shadow-lg">
-              {products?.data.length ? (
+              {isSearching ? (
+                Array.from({ length: 4 }).map((_, i) => (
+                  <div key={i} className="flex items-center gap-3 p-3">
+                    <Skeleton className="h-12 w-12 shrink-0 rounded-md" />
+                    <div className="min-w-0 flex-1 space-y-1.5">
+                      <Skeleton className="h-4 w-1/2" />
+                      <Skeleton className="h-3 w-1/4" />
+                    </div>
+                  </div>
+                ))
+              ) : products?.data.length ? (
                 products.data.map((item) => (
                   <Link
                     key={item.id}
@@ -158,9 +199,11 @@ const Header = () => {
                       <p className="text-sm text-muted-foreground">
                         ${item.price.toFixed(2)}
                       </p>
-                      <p className="text-sm text-red-500">
-                        {item.discountPercentage}%
-                      </p>
+                      {item.discountPercentage > 0 && (
+                        <p className="text-sm text-red-500">
+                          {item.discountPercentage}%
+                        </p>
+                      )}
                     </div>
                   </Link>
                 ))
@@ -315,17 +358,25 @@ const Header = () => {
                   <AccordionTrigger className="rounded-lg px-4 py-3 font-medium hover:bg-muted">
                     Shops
                   </AccordionTrigger>
-                  {Shop?.data.map((item) => (
-                    <AccordionContent key={item.id} className="w-full">
-                      <Link
-                        to={`/stores/${item.id}`}
-                        onClick={closeMenu}
-                        className="block rounded-lg px-4 py-2 font-medium hover:bg-muted"
-                      >
-                        {item.name}
-                      </Link>
-                    </AccordionContent>
-                  ))}
+                  {isLoadingShops
+                    ? Array.from({ length: 4 }).map((_, i) => (
+                        <AccordionContent key={i} className="w-full">
+                          <div className="px-4 py-2">
+                            <Skeleton className="h-4 w-24" />
+                          </div>
+                        </AccordionContent>
+                      ))
+                    : Shop?.data.map((item) => (
+                        <AccordionContent key={item.id} className="w-full">
+                          <Link
+                            to={`/stores/${item.id}`}
+                            onClick={closeMenu}
+                            className="block rounded-lg px-4 py-2 font-medium hover:bg-muted"
+                          >
+                            {item.name}
+                          </Link>
+                        </AccordionContent>
+                      ))}
                 </AccordionItem>
               </Accordion>
               <Link
@@ -354,12 +405,19 @@ const Header = () => {
         )}
 
         {openSearch && (
-          <div className="animate-in relative w-full px-2 pb-3 fade-in slide-in-from-top-2 duration-300">
-            <InputGroup className="w-full bg-muted">
+          <div
+            ref={mobileSearchRef}
+            className="animate-in relative w-full px-2 pb-3 fade-in slide-in-from-top-2 duration-300"
+          >
+            <InputGroup className="w-full bg-transparent">
               <InputGroupInput
                 placeholder="Search products..."
                 value={query}
-                onChange={(e) => setQuery(e.target.value)}
+                onChange={(e) => {
+                  setQuery(e.target.value);
+                  setShowResults(true);
+                }}
+                onFocus={() => setShowResults(true)}
                 autoFocus
               />
               <InputGroupAddon>
@@ -384,9 +442,19 @@ const Header = () => {
                 </InputGroupAddon>
               )}
             </InputGroup>
-            {query && !isSearching && (
+            {query && showResults && (
               <div className="absolute left-2 right-2 top-full z-50 mt-2 max-h-96 overflow-y-auto rounded-xl border border-border bg-background p-2 shadow-lg">
-                {products?.data.length ? (
+                {isSearching ? (
+                  Array.from({ length: 4 }).map((_, i) => (
+                    <div key={i} className="flex items-center gap-3 p-3">
+                      <Skeleton className="h-12 w-12 shrink-0 rounded-md" />
+                      <div className="min-w-0 flex-1 space-y-1.5">
+                        <Skeleton className="h-4 w-1/2" />
+                        <Skeleton className="h-3 w-1/4" />
+                      </div>
+                    </div>
+                  ))
+                ) : products?.data.length ? (
                   products.data.map((item) => (
                     <Link
                       key={item.id}
@@ -407,9 +475,11 @@ const Header = () => {
                         <p className="text-sm text-muted-foreground">
                           ${item.price.toFixed(2)}
                         </p>
-                        <p className="text-sm text-red-500">
-                          {item.discountPercentage}%
-                        </p>
+                        {item.discountPercentage > 0 && (
+                          <p className="text-sm text-red-500">
+                            {item.discountPercentage}%
+                          </p>
+                        )}
                       </div>
                     </Link>
                   ))
