@@ -1,10 +1,10 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import api from "./axios";
-import { ProdectScema } from "@/schemas/product";
+import { ProductScema } from "@/schemas/product";
 import z from "zod";
 
 const queryKey = ["product"];
-type productFormData = z.infer<typeof ProdectScema>;
+type productFormData = z.infer<typeof ProductScema>;
 export interface paginations {
   currentPage: number;
   totalPages: number;

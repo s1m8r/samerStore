@@ -1,9 +1,5 @@
 import { z } from "zod";
-export const imageObject = z.object({
-  color: z.string().min(1, "is required"),
-  path: z.string().min(1, "is required"),
-});
-export const ProdectScema = z.object({
+export const ProductScema = z.object({
   id: z.number().optional(),
   storeId: z.number(),
   discountPercentage: z
@@ -18,6 +14,7 @@ export const ProdectScema = z.object({
   price: z.number().min(0, "Price must be greater than 0"),
   rating: z.number().min(0, "Rating must be greater than 0"),
   badge: z.number().min(0, "Badge must be greater than 0"),
-  images: z.array(imageObject).min(1, "this is required"),
+  images: z.array(z.string().min(1)).min(1, "At least one image is required"),
+  colors: z.array(z.string().min(1)).min(1, "At least one color is required"),
   createdAt: z.string().optional(),
 });

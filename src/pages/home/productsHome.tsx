@@ -1,9 +1,9 @@
 import ShowProduct from "@/components/layout/showproduct";
 import ProductCardSkeleton from "@/components/layout/productCardSkeleton";
-import { ProdectScema } from "@/schemas/product";
+import { ProductScema } from "@/schemas/product";
 import z from "zod";
 
-type ProductFormData = z.infer<typeof ProdectScema>;
+type ProductFormData = z.infer<typeof ProductScema>;
 
 interface Props {
   title: string;
@@ -47,7 +47,7 @@ export default function ProductsHome({
           {product.map((item) => (
             <ShowProduct
               key={item.id}
-              color={item.images[0].color}
+              color={item.colors[0]}
               id={item.id!}
               img={item.image}
               name={item.name}

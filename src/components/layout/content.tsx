@@ -26,11 +26,6 @@ import Faqs from "@/pages/storesPages/faq";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useGetColors } from "@/API/colors";
 
-interface images {
-  color: string;
-  path: string;
-}
-
 interface Props {
   type: "products" | "stores";
   id: number;
@@ -38,7 +33,8 @@ interface Props {
   image: string;
   price: number;
   storeName: string;
-  images: images[];
+  images: string[];
+  colors: string[];
   description?: string;
   typeOfProduct?: string;
   storeId?: number;
@@ -54,6 +50,7 @@ export default function Content({
   description,
   typeOfProduct,
   images,
+  colors,
   rating,
   discountPercentage,
 }: Props) {
@@ -69,10 +66,7 @@ export default function Content({
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperType | null>(null);
   const [activeThumb, setActiveThumb] = useState(0);
   const priceAfter = price - (price * discountPercentage) / 100;
-  const colors = images.filter((item) => item.color !== "xcolor");
-  const [selectedColor, setSelectedColor] = useState(
-    colors.map((item) => item.color)[0],
-  );
+  const [selectedColor, setSelectedColor] = useState(colors[0]);
   const colorName = Nameofcolor?.data.find(
     (i) => i.color === selectedColor,
   )?.path;
@@ -116,7 +110,7 @@ export default function Content({
 
                 {images.map((item, i) => (
                   <SwiperSlide
-                    key={item.path}
+                    key={item}
                     onClick={() => setActiveThumb(i + 1)}
                     className={`flex! h-20! w-20! shrink-0! cursor-pointer! items-center! justify-center! rounded-xl! border! ${
                       activeThumb === i + 1
@@ -125,7 +119,7 @@ export default function Content({
                     }`}
                   >
                     <img
-                      src={item.path}
+                      src={item}
                       alt=""
                       className="h-full w-full rounded-[10px] object-cover"
                     />
@@ -150,13 +144,10 @@ export default function Content({
                 </SwiperSlide>
 
                 {images.map((item) => (
-                  <SwiperSlide
-                    key={item.path}
-                    className="m-0 flex! items-center!"
-                  >
+                  <SwiperSlide key={item} className="m-0 flex! items-center!">
                     <div className="swiper-zoom-container">
                       <img
-                        src={item.path}
+                        src={item}
                         className="h-full w-full object-contain"
                       />
                     </div>
@@ -193,16 +184,16 @@ export default function Content({
               <div className="flex gap-3">
                 {colors.map((item) => (
                   <button
-                    key={item.color}
-                    onClick={() => setSelectedColor(item.color)}
+                    key={item}
+                    onClick={() => setSelectedColor(item)}
                     className={`flex h-9 w-9 cursor-pointer items-center justify-center rounded-full ring-1 ring-offset-2 ring-offset-background transition-all ${
-                      selectedColor === item.color
+                      selectedColor === item
                         ? "ring-2 ring-primary"
                         : "ring-border"
                     }`}
-                    style={{ backgroundColor: item.color }}
+                    style={{ backgroundColor: item }}
                   >
-                    {selectedColor === item.color && (
+                    {selectedColor === item && (
                       <Check className="text-white drop-shadow-sm" size={16} />
                     )}
                   </button>

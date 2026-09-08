@@ -12,6 +12,7 @@ const Product = () => {
       {data && (
         <Content
           images={data.images}
+          colors={data.colors}
           storeId={data.storeId}
           id={data.id!}
           type="products"

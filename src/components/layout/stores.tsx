@@ -2,13 +2,13 @@ import { Filter } from "lucide-react";
 import TitleContent from "./title";
 import ShowProduct from "./showproduct";
 import ProductCardSkeleton from "./productCardSkeleton";
-import { ProdectScema } from "@/schemas/product";
+import { ProductScema } from "@/schemas/product";
 import z from "zod";
 import AccordionStore from "./accordionStore";
 import { useState } from "react";
 interface Props {
   title: string;
-  products: z.infer<typeof ProdectScema>[];
+  products: z.infer<typeof ProductScema>[];
   setColor: React.Dispatch<React.SetStateAction<string>>;
   isLoading?: boolean;
 }
@@ -68,7 +68,7 @@ export default function StoreUi({
                 name={item.name}
                 rating={item.rating}
                 price={item.price}
-                color={item.images[0].color}
+                color={item.colors[0]}
                 discountPercentage={item.discountPercentage}
               />
             ))}
