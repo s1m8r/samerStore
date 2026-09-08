@@ -1,10 +1,14 @@
 import { useRegister } from "@/API/user";
-import RegisterForm from "@/components/layout/form/register";
 import { registerSchema } from "@/schemas/user";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import AuthLayout from "@/components/layout/authLayout";
+import InputForm from "@/components/layout/form/inputForm";
+import { Button } from "@/components/ui/button";
+import { Calendar, Lock, Mail, UserRound } from "lucide-react";
+
 type registerFormData = z.infer<typeof registerSchema>;
 
 const Register = () => {
@@ -35,24 +39,86 @@ const Register = () => {
     };
     mutate(dataFormat, {
       onSuccess: () => {
-        navigate({
-          to: "/login",
-        });
+        navigate({ to: "/login" });
       },
     });
   };
+
   return (
-    <div className="flex min-h-screen items-center justify-center px-4 py-10">
-      <RegisterForm
-        title="Register"
-        handleSubmit={handleSubmit}
-        onsubmit={handleRegister}
-        errors={errors}
-        register={register}
-        isPending={isPending}
-        isRegister={true}
-      />
-    </div>
+    <AuthLayout
+      title="Create your account"
+      subtitle="Join Samer Shop to start shopping."
+      tagline="Wear the street. Not the trend."
+      taglineDetail="Create an account to save your sizes, track orders, and get new drops first."
+      footer={
+        <Link
+          to="/login"
+          className="flex justify-center text-sm text-muted-foreground underline underline-offset-4 transition hover:text-foreground"
+        >
+          I already have an account
+        </Link>
+      }
+    >
+      <form onSubmit={handleSubmit(handleRegister)} className="space-y-4">
+        <InputForm
+          register={register}
+          icon={<UserRound />}
+          name="firstName"
+          placeholder="First Name"
+          label="First Name"
+          ariaInvalid={!!errors.firstName?.message}
+          errorMessage={errors.firstName?.message}
+        />
+
+        <InputForm
+          register={register}
+          icon={<UserRound size={22} />}
+          name="lastName"
+          placeholder="Last Name"
+          label="Last Name"
+          ariaInvalid={!!errors.lastName?.message}
+          errorMessage={errors.lastName?.message}
+        />
+
+        <InputForm
+          register={register}
+          icon={<Calendar size={22} />}
+          name="age"
+          placeholder="Age"
+          label="Age"
+          type="number"
+          options={{ valueAsNumber: true }}
+          ariaInvalid={!!errors.age?.message}
+          errorMessage={errors.age?.message}
+        />
+
+        <InputForm
+          register={register}
+          icon={<Mail size={22} />}
+          name="email"
+          placeholder="Email"
+          label="Email"
+          ariaInvalid={!!errors.email?.message}
+          errorMessage={errors.email?.message}
+        />
+
+        <InputForm
+          register={register}
+          icon={<Lock size={22} />}
+          name="password"
+          placeholder="Password"
+          label="Password"
+          type="password"
+          ariaInvalid={!!errors.password?.message}
+          errorMessage={errors.password?.message}
+          isPassword={true}
+        />
+
+        <Button className="w-full" disabled={isPending}>
+          Create account
+        </Button>
+      </form>
+    </AuthLayout>
   );
 };
 
