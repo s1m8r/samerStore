@@ -105,14 +105,14 @@ export default function AccordionStore({ setColor, maxPrice = 0 }: Prop) {
       <AccordionItem value="Colors">
         <AccordionTrigger>Colors</AccordionTrigger>
         <AccordionContent>
-          <div className="grid grid-cols-6 gap-2">
+          <div className="flex flex-wrap gap-2 pb-1">
             {sortedColors.map((item) => (
               <button
                 key={item.id}
                 type="button"
                 onClick={() => checkColor(item.color)}
                 style={{ backgroundColor: item.color }}
-                className={`flex aspect-square w-full items-center justify-center rounded-full border-[3px] ${
+                className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border-[3px] ${
                   selectedColor === item.color
                     ? "border-primary"
                     : "border-border"

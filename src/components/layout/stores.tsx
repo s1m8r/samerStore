@@ -38,9 +38,14 @@ export default function StoreUi({
           <TitleContent title={title ?? ""} />
           <button
             onClick={() => setOpen(!open)}
-            className="flex h-9 w-9 items-center justify-center rounded-lg border border-border md:hidden"
+            className="mb-4 flex h-9 w-9 items-center justify-center rounded-lg border border-border md:hidden"
           >
-            <Filter size={18} />
+            <Filter
+              size={18}
+              className={`transition-transform duration-300 ${
+                open ? "rotate-90" : ""
+              }`}
+            />
           </button>
         </div>
         {open && (
@@ -49,7 +54,7 @@ export default function StoreUi({
           </div>
         )}
         {isLoading ? (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="grid grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-4">
             {Array.from({ length: 8 }).map((_, i) => (
               <ProductCardSkeleton key={i} />
             ))}
@@ -59,7 +64,7 @@ export default function StoreUi({
             <p className="text-muted-foreground">No products found.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="grid grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-4">
             {products?.map((item) => (
               <ShowProduct
                 key={item.id}

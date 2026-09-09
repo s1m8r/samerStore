@@ -11,8 +11,7 @@ const ShopShow = () => {
   const [page, setPage] = useState(1);
 
   const { data: products, isLoading } = useGetProducts(8, "", page, title);
-  const [color, setColor] = useState("");
-  console.log(color);
+  const [, setColor] = useState("");
   return (
     <>
       <StoreUi

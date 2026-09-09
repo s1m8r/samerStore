@@ -15,8 +15,7 @@ const ShowType = () => {
     page,
     types?.value,
   );
-  const [color, setColor] = useState("");
-  console.log(color);
+  const [, setColor] = useState("");
   return (
     <>
       <StoreUi

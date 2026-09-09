@@ -9,8 +9,7 @@ const TopSell = () => {
     "discountPercentage",
     page,
   );
-  const [color, setColor] = useState("");
-  console.log(color);
+  const [, setColor] = useState("");
   return (
     <>
       <StoreUi

@@ -5,8 +5,7 @@ import Paginations from "@/components/layout/pagination";
 const NewArrivals = () => {
   const [page, setPage] = useState(1);
   const { data: products, isLoading } = useGetProducts(8, "", page);
-  const [color, setColor] = useState("");
-  console.log(color);
+  const [, setColor] = useState("");
   return (
     <>
       <StoreUi
