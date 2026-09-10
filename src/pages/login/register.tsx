@@ -27,18 +27,18 @@ const Register = () => {
     formState: { errors },
   } = useForm({
     resolver: zodResolver(registerSchema),
+    defaultValues: {
+      address: {
+        street: "Al-Sadr City",
+        state: "Baghdad",
+        zipCode: "10001",
+      },
+    },
   });
   const navigate = useNavigate();
   const handleRegister = (data: registerFormData) => {
     const dataFormat = {
       ...data,
-      address: {
-        street: "Al-Sadr City",
-        city: data.address?.city ?? "",
-        state: "Baghdad",
-        zipCode: "10001",
-        country: data.address?.country ?? "",
-      },
       role: "user",
       roleId: 3,
       isActive: true,
