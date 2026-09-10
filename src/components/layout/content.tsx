@@ -15,7 +15,7 @@ import "swiper/css/pagination";
 import "swiper/css";
 import "swiper/css/scrollbar";
 import Rating from "./rading";
-import { Check, Minus, Plus } from "lucide-react";
+import { Check, Minus, Plus, ShoppingCart } from "lucide-react";
 import { Button } from "../ui/button";
 import { useCartStore } from "@/stores/cartStore";
 import WriteReview from "./writeReview";
@@ -61,7 +61,7 @@ export default function Content({
     increaseQuantity,
   } = useCartStore();
   const { data: Nameofcolor } = useGetColors();
-  const { data } = useGetProducts(4, typeOfProduct);
+  const { data } = useGetProducts(4, "", 1, typeOfProduct);
   const cartItem = cartItems.find((item) => item.productId === id);
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperType | null>(null);
   const [activeThumb, setActiveThumb] = useState(0);
@@ -223,7 +223,7 @@ export default function Content({
                 ) : (
                   <Button
                     size="sm"
-                    className="rounded-full px-5"
+                    className="justify-center rounded-full px-5"
                     onClick={() =>
                       addToCart({
                         productId: id,
@@ -236,7 +236,10 @@ export default function Content({
                       })
                     }
                   >
-                    Buy
+                    <span className="flex items-center justify-center gap-1.5">
+                      <ShoppingCart size={16} />
+                      Add
+                    </span>
                   </Button>
                 )}
               </>

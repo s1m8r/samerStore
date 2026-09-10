@@ -40,7 +40,7 @@ export const useGetProducts = (
 
 export const useGetProduct = (id: number) => {
   return useQuery({
-    queryKey: [queryKey, id],
+    queryKey: [...queryKey, id],
     queryFn: async () => {
       const res = await api.get<productFormData>(
         `/api/collection/product/${id}`,

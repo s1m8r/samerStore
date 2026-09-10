@@ -1,11 +1,13 @@
 import { useCart } from "@/API/cart";
 import TitleContent from "@/components/layout/title";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { useCartStore } from "@/stores/cartStore";
 import { useAuthStore } from "@/stores/userStore";
 import { useNavigate } from "@tanstack/react-router";
 import { Minus, Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 import {
   Dialog,
   DialogContent,
@@ -18,6 +20,12 @@ const MyCart = () => {
   const { mutate } = useCart();
   const user = useAuthStore.getState().user;
   const [open, setOpen] = useState(false);
+  const [promoCode, setPromoCode] = useState("");
+  const applyPromoCode = () => {
+    if (!promoCode.trim()) return;
+    toast.success(`Code "${promoCode.trim()}" applied`);
+    setPromoCode("");
+  };
   const goCart = () => {
     if (!user) {
       setOpen(true);
@@ -41,7 +49,10 @@ const MyCart = () => {
       },
       {
         onSuccess: () => {
-          clearCart();
+          toast.success("Purchase completed successfully");
+          setTimeout(() => {
+            clearCart();
+          }, 1000);
         },
       },
     );
@@ -60,7 +71,7 @@ const MyCart = () => {
     <div className="px-4 py-4 md:px-12">
       <TitleContent title="My Cart" />
       <div className="grid grid-cols-1 gap-4 md:grid-cols-12">
-        <div className="md:col-span-8">
+        <div className={items.length === 0 ? "md:col-span-12" : "md:col-span-8"}>
           {items.length !== 0 && (
             <div className="max-h-[calc(80vh-80px)] space-y-3 overflow-y-auto pr-1">
               {items.map((item) => (
@@ -126,6 +137,7 @@ const MyCart = () => {
           )}
         </div>
 
+        {items.length !== 0 && (
         <div className="h-fit rounded-2xl border border-border bg-card p-5 shadow-sm md:col-span-4">
           <h1 className="text-lg font-semibold">Order Summary</h1>
           <div className="space-y-1 border-b border-border py-2 pb-4">
@@ -144,6 +156,21 @@ const MyCart = () => {
             </div>
           </div>
           <div className="space-y-4">
+            <div className="flex gap-2 border-b border-border pb-4">
+              <Input
+                placeholder="Discount code"
+                value={promoCode}
+                onChange={(e) => setPromoCode(e.target.value)}
+              />
+              <Button
+                type="button"
+                variant="outline"
+                onClick={applyPromoCode}
+                disabled={!promoCode.trim()}
+              >
+                Apply
+              </Button>
+            </div>
             <div className="mt-2 flex justify-between">
               <span className="text-sm font-bold">Total</span>
               <span className="text-sm font-bold">
@@ -174,6 +201,7 @@ const MyCart = () => {
             </div>
           </div>
         </div>
+        )}
       </div>
     </div>
   );

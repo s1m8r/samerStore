@@ -69,12 +69,12 @@ const Header = () => {
       document.removeEventListener("mousedown", handleClickOutside);
   }, []);
   const { data: products, isFetching } = useGetProducts(
-    100000,
+    10,
     "",
     1,
     debounceQuery,
   );
-  const isSearching = isFetching || query !== debounceQuery;
+  const isSearching = !!query && (isFetching || query !== debounceQuery);
   const navigator = useNavigate();
   const goToLogin = () => {
     navigator({ to: "/login" });
@@ -130,11 +130,13 @@ const Header = () => {
                 <Link to="/stores/newarrivals">New Arrivals</Link>
               </NavigationMenuLink>
             </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuLink asChild>
-                <Link to="/orders">My Orders</Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
+            {user && (
+              <NavigationMenuItem>
+                <NavigationMenuLink asChild>
+                  <Link to="/orders">My Orders</Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+            )}
           </NavigationMenuList>
         </NavigationMenu>
         <div ref={desktopSearchRef} className="relative flex-1 px-6">
@@ -155,9 +157,7 @@ const Header = () => {
 
             {query && (
               <InputGroupAddon align="inline-end">
-                {isSearching
-                  ? "Searching..."
-                  : `${products?.data.length ?? 0} results`}
+                {isSearching && "Searching..."}
                 <InputGroupButton
                   size="icon-xs"
                   aria-label="Clear search"
@@ -393,13 +393,15 @@ const Header = () => {
               >
                 New Arrivals
               </Link>
-              <Link
-                to="/orders"
-                onClick={closeMenu}
-                className="rounded-lg px-4 py-3 font-medium hover:bg-muted"
-              >
-                My Orders
-              </Link>
+              {user && (
+                <Link
+                  to="/orders"
+                  onClick={closeMenu}
+                  className="rounded-lg px-4 py-3 font-medium hover:bg-muted"
+                >
+                  My Orders
+                </Link>
+              )}
             </div>
           </div>
         )}
@@ -429,9 +431,7 @@ const Header = () => {
               </InputGroupAddon>
               {query && (
                 <InputGroupAddon align="inline-end">
-                  {isSearching
-                    ? "Searching..."
-                    : `${products?.data.length ?? 0} results`}
+                  {isSearching && "Searching..."}
                   <InputGroupButton
                     size="icon-xs"
                     aria-label="Clear search"

@@ -3,7 +3,7 @@ import api from "./axios";
 import z from "zod";
 import { CartCreateSchema, CartScema } from "@/schemas/cart";
 
-const queryKey = ["product"];
+const queryKey = ["cart"];
 
 type productCreateData = z.infer<typeof CartCreateSchema>;
 type productResponseData = z.infer<typeof CartScema>;

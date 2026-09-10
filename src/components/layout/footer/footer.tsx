@@ -1,9 +1,11 @@
 import { Link } from "@tanstack/react-router";
 import { Globe, Mail, MessageCircle, Send } from "lucide-react";
 import { useGetStores } from "@/API/stores";
+import { useAuthStore } from "@/stores/userStore";
 
 const Footer = () => {
   const { data: Shop } = useGetStores();
+  const user = useAuthStore.getState().user;
 
   return (
     <footer className="w-full border-t border-border bg-background px-2 mt-16 md:px-12">
@@ -72,12 +74,14 @@ const Footer = () => {
           >
             New Arrivals
           </Link>
-          <Link
-            to="/orders"
-            className="text-sm text-muted-foreground hover:text-foreground"
-          >
-            My Orders
-          </Link>
+          {user && (
+            <Link
+              to="/orders"
+              className="text-sm text-muted-foreground hover:text-foreground"
+            >
+              My Orders
+            </Link>
+          )}
         </div>
 
         <div className="flex flex-col gap-3">

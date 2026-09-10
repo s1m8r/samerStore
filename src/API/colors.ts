@@ -3,7 +3,7 @@ import api from "./axios";
 import z from "zod";
 import { colorsSchema } from "@/schemas/colors";
 
-const queryKey = ["product"];
+const queryKey = ["colors"];
 type productFormData = z.infer<typeof colorsSchema>;
 type productAll = {
   data: productFormData[];

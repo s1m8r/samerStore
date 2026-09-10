@@ -22,7 +22,7 @@ export const useGetTypes = () => {
 
 export const useGetType = (id: string) => {
   return useQuery({
-    queryKey: [queryKey, id],
+    queryKey: [...queryKey, id],
     queryFn: async () => {
       const res = await api.get<TypesAll>(`/api/collection/types/${id}`);
       return res.data;

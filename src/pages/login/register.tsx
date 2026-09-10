@@ -7,7 +7,15 @@ import { z } from "zod";
 import AuthLayout from "@/components/layout/authLayout";
 import InputForm from "@/components/layout/form/inputForm";
 import { Button } from "@/components/ui/button";
-import { Calendar, Lock, Mail, UserRound } from "lucide-react";
+import {
+  Building2,
+  Calendar,
+  Globe,
+  Lock,
+  Mail,
+  Phone,
+  UserRound,
+} from "lucide-react";
 
 type registerFormData = z.infer<typeof registerSchema>;
 
@@ -24,15 +32,13 @@ const Register = () => {
   const handleRegister = (data: registerFormData) => {
     const dataFormat = {
       ...data,
-      age: data.age,
       address: {
         street: "Al-Sadr City",
-        city: "Baghdad",
+        city: data.address?.city ?? "",
         state: "Baghdad",
         zipCode: "10001",
-        country: "Iraq",
+        country: data.address?.country ?? "",
       },
-      phone: "07722759695",
       role: "user",
       roleId: 3,
       isActive: true,
@@ -112,6 +118,36 @@ const Register = () => {
           ariaInvalid={!!errors.password?.message}
           errorMessage={errors.password?.message}
           isPassword={true}
+        />
+
+        <InputForm
+          register={register}
+          icon={<Phone size={22} />}
+          name="phone"
+          placeholder="Phone"
+          label="Phone"
+          ariaInvalid={!!errors.phone?.message}
+          errorMessage={errors.phone?.message}
+        />
+
+        <InputForm
+          register={register}
+          icon={<Building2 size={22} />}
+          name="address.city"
+          placeholder="City"
+          label="City"
+          ariaInvalid={!!errors.address?.city?.message}
+          errorMessage={errors.address?.city?.message}
+        />
+
+        <InputForm
+          register={register}
+          icon={<Globe size={22} />}
+          name="address.country"
+          placeholder="Country"
+          label="Country"
+          ariaInvalid={!!errors.address?.country?.message}
+          errorMessage={errors.address?.country?.message}
         />
 
         <Button className="w-full" disabled={isPending}>

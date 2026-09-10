@@ -31,7 +31,7 @@ export const useGetStores = (page = 1, search = "") => {
 
 export const useGetStore = (id?: number) => {
   return useQuery({
-    queryKey: [queryKey, id],
+    queryKey: [...queryKey, id],
     queryFn: async () => {
       const res = await api.get<storeFormData>(`/api/stores/${id}`);
       return res.data;
