@@ -12,7 +12,7 @@ const Home = () => {
   const { data: peoducts, isLoading: isLoadingNew } = useGetProducts(4, "id");
   const { data: peoductsTop, isLoading: isLoadingTop } = useGetProducts(
     4,
-    "rating",
+    "discountPercentage",
   );
   return (
     <>
@@ -98,7 +98,10 @@ const Home = () => {
         />
         <ProductsHome
           title="Top selling"
-          product={peoductsTop?.data ?? []}
+          product={
+            peoductsTop?.data.filter((item) => item.discountPercentage > 0) ??
+            []
+          }
           goToShow={() => navigation({ to: "/stores/TopSell" })}
           isLoading={isLoadingTop}
         />
